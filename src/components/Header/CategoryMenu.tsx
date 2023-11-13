@@ -26,7 +26,7 @@ const CategoryMenu = () => {
 				<div className="flex gap-2 flex-wrap py-4">
 					{serviceCategories.map((name, idx) => (
 						<div className="" key={idx}>
-							<Button variant="secondary">{name}</Button>
+							<Button variant="default" className="">{name}</Button>
 						</div>
 					))}
 				</div>
