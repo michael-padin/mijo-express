@@ -4,8 +4,7 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import { UserAuthForm } from "../login/components/use-auth-form";
-import SignupForm from "./components/registerForm";
+import RegisterForm from "./components/RegisterForm";
 
 export const metadata: Metadata = {
   title: "Sign up",
@@ -64,7 +63,7 @@ export default function AuthenticationPage() {
                 Sign up for an account to access exclusive features and content.
               </p>
             </div>
-            <SignupForm />
+            <RegisterForm />
             <p className="px-8 text-center text-sm text-muted-foreground">
               By clicking continue, you agree to our{" "}
               <Link

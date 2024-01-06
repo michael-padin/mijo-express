@@ -14,10 +14,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MeInputAddress } from "@/components/Me/MeInputAddress";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const formSchema = z
   .object({
-    name: z.string().min(3),
+    fullName: z.string().min(3),
     email: z.string().email(),
     password: z.string().min(6),
     address: z.string().min(3),
@@ -31,48 +33,56 @@ const formSchema = z
 type FormData = z.infer<typeof formSchema>;
 
 const RegisterForm = () => {
+  const router = useRouter();
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
 
   const onSubmit = async (data: FormData) => {
-    const response = await fetch("/api/register", {
+    const response: Response = await fetch("/api/register", {
       method: "POST",
       body: JSON.stringify(data),
+      cache: "no-cache",
     });
 
-    console.log(response);
+    if (!response.ok) {
+      toast.error(response.statusText);
+      return;
+    }
+
+    toast.success("Account created successfully");
+    router.push("/login");
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Your Name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="@email.com" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <FormField
+          control={form.control}
+          name="fullName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Your Name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder="@email.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="address"
@@ -113,8 +123,7 @@ const RegisterForm = () => {
           )}
         />
         <Button type="submit" className="w-full">
-          {" "}
-          Register{" "}
+          Register
         </Button>
       </form>
     </Form>
