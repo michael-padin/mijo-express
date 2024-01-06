@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -62,6 +63,9 @@
     "vaul": "^0.8.0",
     "zod": "^3.22.4"
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css}": "prettier --write"
+  },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
@@ -69,7 +73,11 @@
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.0.2",
+    "git-format-staged": "^3.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.0",
     "postcss": "^8",
+    "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
   }
