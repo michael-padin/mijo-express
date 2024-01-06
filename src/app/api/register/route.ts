@@ -8,23 +8,24 @@ export const registerSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
   address: z.string().min(6),
-  name: z.string().min(6),
+  fullName: z.string().min(6),
 });
 
 export async function POST(req: Request) {
   try {
     connectToDB();
     // Your registration logic here
-    const { email, password, name, address } = await registerSchema.parseAsync(
-      await req.json()
-    );
+    const { email, password, fullName, address } = await req.json();
 
     const hashedPassword = await hash(password, 10);
 
     // Check if email already exists in the database
     const emailExists = await checkEmailExists(email);
     if (emailExists) {
-      return NextResponse.json({ error: "Email already exists" });
+      return new Response("Error", {
+        status: 400,
+        statusText: "Email already exists",
+      });
     }
 
     // Your database logic here
@@ -32,14 +33,21 @@ export async function POST(req: Request) {
     const user = {
       email,
       password: hashedPassword,
-      name,
+      fullName,
       address,
     };
 
     await createUser(user);
 
-    return NextResponse.json({ message: "User created successfully" });
+    return new Response("Success", {
+      status: 200,
+      statusText: " User created successfully",
+    });
   } catch (error) {
-    return NextResponse.error();
+    console.log(error);
+    return Response.json({
+      message: error,
+      success: false,
+    });
   }
 }

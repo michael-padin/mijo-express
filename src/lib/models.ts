@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 // Users Collection: Represents user accounts for administrators, service providers, and customers.
 const UserSchema = new mongoose.Schema({
+  fullName: { type: String, required: true }, // User's full name
   email: { type: String, required: true, unique: true }, // User's login username
   password: { type: String, required: true }, // User's hashed password
   address: { type: String, required: true }, // User's address
