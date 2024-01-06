@@ -2,12 +2,14 @@ import mongoose from "mongoose";
 
 // Users Collection: Represents user accounts for administrators, service providers, and customers.
 const UserSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true }, // User's login username
+  email: { type: String, required: true, unique: true }, // User's login username
   password: { type: String, required: true }, // User's hashed password
+  address: { type: String, required: true }, // User's address
   role: {
     type: String,
     enum: ["admin", "service_provider", "customer"],
     required: true,
+    default: "customer",
   }, // User's role
   profile: {
     firstName: String,
@@ -91,17 +93,19 @@ const ServiceRequestSchema = new mongoose.Schema({
 });
 
 // Export the schemas as models
-export const User = mongoose.model("User", UserSchema);
-export const ServiceCategory = mongoose.model(
-  "ServiceCategory",
-  ServiceCategorySchema
-);
-export const ServiceProvider = mongoose.model(
-  "ServiceProvider",
-  ServiceProviderSchema
-);
-export const Customer = mongoose.model("Customer", CustomerSchema);
-export const ServiceRequest = mongoose.model(
-  "ServiceRequest",
-  ServiceRequestSchema
-);
+export const User = mongoose.models?.User || mongoose.model("User", UserSchema);
+
+export const ServiceCategory =
+  mongoose.models?.ServiceCategory ||
+  mongoose.model("ServiceCategory", ServiceCategorySchema);
+
+export const ServiceProvider =
+  mongoose.models?.ServiceProvider ||
+  mongoose.model("ServiceProvider", ServiceProviderSchema);
+
+export const Customer =
+  mongoose.models?.Customer || mongoose.model("Customer", CustomerSchema);
+
+export const ServiceRequest =
+  mongoose.models?.ServiceRequest ||
+  mongoose.model("ServiceRequest", ServiceRequestSchema);

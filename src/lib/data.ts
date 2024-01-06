@@ -1,3 +1,4 @@
+import { z } from "zod";
 import {
   Customer,
   ServiceCategory,
@@ -13,6 +14,8 @@ const createUser = async (userData: any) => {
     const newUser = await user.save();
     return newUser;
   } catch (error) {
+    console.log(error);
+
     throw error;
   }
 };
@@ -25,6 +28,11 @@ const getAllUsers = async () => {
   } catch (error) {
     throw error;
   }
+};
+
+const checkEmailExists = async (email: string): Promise<boolean> => {
+  const user = await User.findOne({ email });
+  return !!user;
 };
 
 // Create a new service category
@@ -112,6 +120,7 @@ const getAllServiceRequests = async () => {
 };
 
 export {
+  checkEmailExists,
   createUser,
   getAllUsers,
   createServiceCategory,
