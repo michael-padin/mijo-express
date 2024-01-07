@@ -1,14 +1,10 @@
 import { login } from "@/lib/auth";
-import nextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { authConfig } from "@/lib/auth.config";
 
-const handler = nextAuth({
-  session: {
-    strategy: "jwt",
-  },
-  pages: {
-    signIn: "/login",
-  },
+export const authOptions: NextAuthOptions = {
+  ...authConfig,
   providers: [
     CredentialsProvider({
       credentials: {
@@ -28,6 +24,17 @@ const handler = nextAuth({
       },
     }),
   ],
-});
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      return { ...token, ...user };
+    },
+    session: async ({ session, token }) => {
+      session.user = token as any;
+      return session;
+    },
+  },
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
