@@ -1,6 +1,8 @@
+import NextAuth from "next-auth/next";
 import { User } from "./models";
 import { connectToDB } from "./utils";
 import bcrypt from "bcrypt";
+import { signJwtAccessToken } from "./jwt";
 
 type loginProps = {
   email?: string | undefined;
@@ -8,19 +10,23 @@ type loginProps = {
 };
 
 export const login = async (credentials: loginProps) => {
-  const { password, email } = credentials;
+  const { password = "", email = "" } = credentials;
   try {
     await connectToDB();
     const user = await User.findOne({ email });
 
-    if (!user) throw new Error("Wrong credentials!");
+    if (user && (await bcrypt.compare(password, user.password))) {
+      const { password, ...userWithoutPass } = user._doc;
+      const accessToken = signJwtAccessToken(userWithoutPass);
 
-    if (password) {
-      const isPasswordCorrect = await bcrypt.compare(password, user.password);
-      if (!isPasswordCorrect) throw new Error("Wrong credentials!");
+      const result = {
+        ...userWithoutPass,
+        accessToken,
+      };
+      return result;
+    } else {
+      throw new Error("Wrong credentials!");
     }
-
-    return user;
   } catch (err) {
     console.log(err);
     throw new Error((err as Error).message);
