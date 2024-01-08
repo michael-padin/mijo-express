@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import { Heart, Mail, Search } from "lucide-react";
@@ -39,7 +40,7 @@ const Header = () => {
                 className="h-full rounded-r-none "
                 placeholder="What services are you looking for?"
               />
-              <Button className="h-full rounded-l-none">
+              <Button className="h-full rounded-l-none" variant={"secondary"}>
                 <Search />
               </Button>
             </div>

@@ -14,8 +14,11 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
+import { Accordion } from "@radix-ui/react-accordion";
 
 const Navbar = () => {
+  const session = useSession();
   return (
     <div className="sticky w-full border-b px-5 py-4">
       <div className="flex justify-end">
@@ -30,7 +33,7 @@ const Navbar = () => {
 				</div> */}
         <div className="flex gap-3">
           <ModeToggle />
-          <Button variant={"ghost"} size="icon">
+          {/* <Button variant={"ghost"} size="icon">
             <MessageSquare />
           </Button>
           <Button variant={"ghost"} size="icon">
@@ -38,15 +41,18 @@ const Navbar = () => {
           </Button>
           <Button variant={"ghost"} size="icon">
             <Info />
-          </Button>
+          </Button> */}
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
                 <AvatarImage
-                  src="https://github.com/shadcn.png"
+                  src={session.data?.user.profile.profileImg}
                   alt="@shadcn"
                 />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback>
+                  {session.data?.user.fullName.substring(0, 2).toUpperCase() ||
+                    "CN"}
+                </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
@@ -58,7 +64,9 @@ const Navbar = () => {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => signOut()}>
+                Logout
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
