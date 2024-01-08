@@ -1,5 +1,5 @@
-import Navbar from "@/components/Admin/Navbar";
-import Sidebar from "@/components/Admin/sidebar/Sidebar";
+import Navbar from "@/components/admin/Navbar";
+import Sidebar from "@/components/admin/sidebar/Sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 export default function RootLayout({

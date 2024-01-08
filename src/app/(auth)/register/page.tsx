@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import RegisterForm from "./components/RegisterForm";
+import RegisterForm from "./components/registerForm";
 
 export const metadata: Metadata = {
   title: "Sign up",

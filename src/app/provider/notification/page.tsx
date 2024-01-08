@@ -1,5 +1,5 @@
-import ProviderHeader from "@/components/Provider/ProviderHeader";
-import ProviderNotification from "@/components/Provider/ProviderNotification";
+import ProviderHeader from "@/components/provider/ProviderHeader";
+import ProviderNotification from "@/components/provider/ProviderNotification";
 
 export default function ProviderNotificationPage() {
   return (

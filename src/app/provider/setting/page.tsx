@@ -1,8 +1,7 @@
 "use client";
 
-import ProviderNav from "@/components/Provider/ProviderNav";
-import ProviderHeader from "@/components/Provider/ProviderHeader";
-import ProviderFeed from "@/components/Provider/ProviderFeed";
+import ProviderHeader from "@/components/provider/ProviderHeader";
+import ProviderNav from "@/components/provider/ProviderNav";
 
 export default function ProviderSetting() {
   return (

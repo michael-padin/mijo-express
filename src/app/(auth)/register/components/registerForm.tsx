@@ -13,9 +13,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MeInputAddress } from "@/components/Me/MeInputAddress";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { MeInputAddress } from "@/components/me/MeInputAddress";
 
 const formSchema = z
   .object({
@@ -45,14 +45,7 @@ const RegisterForm = () => {
     });
 
     if (!response.ok) {
-      toast.error(response.statusText, {
-        action: {
-          label: "Sign in",
-          onClick: () => {
-            router.push("/login");
-          },
-        },
-      });
+      toast.error(response.statusText);
       return;
     }
 

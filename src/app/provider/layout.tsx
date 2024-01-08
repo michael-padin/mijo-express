@@ -1,6 +1,4 @@
-"use client";
-
-import ProviderNav from "../../components/Provider/ProviderNav";
+import ProviderNav from "@/components/provider/ProviderNav";
 import React from "react";
 
 const ProviderLayout = ({ children }: { children: React.ReactNode }) => {

@@ -2,8 +2,8 @@
 
 "use client";
 
-import ProviderHeader from "@/components/Provider/ProviderHeader";
-import ProviderProfile from "@/components/Provider/ProviderProfile";
+import ProviderHeader from "@/components/provider/ProviderHeader";
+import ProviderProfile from "@/components/provider/ProviderProfile";
 
 export default function ProviderProfilePage() {
   return (

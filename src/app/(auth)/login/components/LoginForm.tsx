@@ -48,7 +48,7 @@ const LoginForm = () => {
     } else if (session.data?.user.role === "provider") {
       router.push("/admin");
     } else {
-      router.push("/customer");
+      router.push("/customer/feed");
     }
   };
 
