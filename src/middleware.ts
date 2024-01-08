@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyJwt } from "./lib/jwt";
 import { withAuth } from "next-auth/middleware";
-import { getToken } from "next-auth/jwt";
 
 export default withAuth(
   function middleware(req) {
@@ -14,7 +12,7 @@ export default withAuth(
     if (
       req.nextUrl.pathname.startsWith("/provider") &&
       token?.role !== "provider" &&
-      token?.role !== "admin"
+      token?.role === "customer"
     ) {
       return NextResponse.rewrite(new URL("/not-found", req.url));
     }
