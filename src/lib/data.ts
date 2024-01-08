@@ -1,11 +1,8 @@
+"use server";
 import { z } from "zod";
-import {
-  Customer,
-  ServiceCategory,
-  ServiceProvider,
-  ServiceRequest,
-  User,
-} from "./models";
+import { ServiceCategory, ServiceRequest, User } from "./models";
+import { connectToDB } from "./utils";
+import { serviceCategories } from "./sampleData/userTransaction";
 
 // Create a new user
 const createUser = async (userData: any) => {
@@ -21,8 +18,22 @@ const createUser = async (userData: any) => {
 // Get all users
 const getAllUsers = async () => {
   try {
+    await connectToDB();
     const users = await User.find();
     return users;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getAllProviders = async () => {
+  try {
+    await connectToDB();
+
+    const providers = await User.find({ role: "service_provider" }).select(
+      "-password"
+    );
+    return providers;
   } catch (error) {
     throw error;
   }
@@ -33,9 +44,18 @@ const checkEmailExists = async (email: string): Promise<boolean> => {
   return !!user;
 };
 
+const insertAllCategories = async () => {
+  const categories = await getAllServiceCategories();
+  serviceCategories.map(async (category) => {
+    // Perform the insertion operation for each category
+    await createServiceCategory(category);
+  });
+};
+
 // Create a new service category
 const createServiceCategory = async (categoryData: any) => {
   try {
+    connectToDB();
     const category = new ServiceCategory(categoryData);
     const newCategory = await category.save();
     return newCategory;
@@ -47,6 +67,7 @@ const createServiceCategory = async (categoryData: any) => {
 // Get all service categories
 const getAllServiceCategories = async () => {
   try {
+    await connectToDB();
     const categories = await ServiceCategory.find();
     return categories;
   } catch (error) {
@@ -57,7 +78,7 @@ const getAllServiceCategories = async () => {
 // Create a new service provider
 const createServiceProvider = async (providerData: any) => {
   try {
-    const provider = new ServiceProvider(providerData);
+    const provider = new User(providerData);
     const newProvider = await provider.save();
     return newProvider;
   } catch (error) {
@@ -68,19 +89,8 @@ const createServiceProvider = async (providerData: any) => {
 // Get all service providers
 const getAllServiceProviders = async () => {
   try {
-    const providers = await ServiceProvider.find();
+    const providers = await User.find({ role: "service_provider" });
     return providers;
-  } catch (error) {
-    throw error;
-  }
-};
-
-// Create a new customer
-const createCustomer = async (customerData: any) => {
-  try {
-    const customer = new Customer(customerData);
-    const newCustomer = await customer.save();
-    return newCustomer;
   } catch (error) {
     throw error;
   }
@@ -89,7 +99,7 @@ const createCustomer = async (customerData: any) => {
 // Get all customers
 const getAllCustomers = async () => {
   try {
-    const customers = await Customer.find();
+    const customers = await User.find({ role: "customer" });
     return customers;
   } catch (error) {
     throw error;
@@ -118,6 +128,7 @@ const getAllServiceRequests = async () => {
 };
 
 export {
+  getAllProviders,
   checkEmailExists,
   createUser,
   getAllUsers,
@@ -125,7 +136,6 @@ export {
   getAllServiceCategories,
   createServiceProvider,
   getAllServiceProviders,
-  createCustomer,
   getAllCustomers,
   createServiceRequest,
   getAllServiceRequests,

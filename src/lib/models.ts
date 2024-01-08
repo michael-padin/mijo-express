@@ -13,26 +13,14 @@ const UserSchema = new mongoose.Schema({
     default: "customer",
   }, // User's role
   profile: {
-    firstName: String,
-    lastName: String,
-    email: String,
-    // Add other relevant user profile fields
+    firstName: { type: String },
+    lastName: { type: String },
+    contactNumber: { type: String },
+    location: { type: String },
+    description: { type: String },
+    profileImg: { type: String },
   },
-});
-
-// ServiceCategories Collection: Represents different service categories offered in the app.
-const ServiceCategorySchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true }, // Name of the service category
-  description: String,
-  // Add other relevant service category fields
-});
-
-// ServiceProviders Collection: Represents registered service providers in the app.
-const ServiceProviderSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Reference to the corresponding user
-  serviceCategories: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "ServiceCategory" },
-  ], // Categories offered by the provider
+  ServiceCategory: [{ type: String }],
   availability: [
     {
       dayOfWeek: {
@@ -58,36 +46,35 @@ const ServiceProviderSchema = new mongoose.Schema({
       endTime: String,
     },
   ],
-  // Add other relevant service provider fields
 });
 
-// Customers Collection: Represents registered customers in the app.
-const CustomerSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Reference to the corresponding user
-  // Add other relevant customer fields
+// ServiceCategories Collection: Represents different service categories offered in the app.
+const ServiceCategorySchema = new mongoose.Schema({
+  name: { type: String, required: true, unique: true }, // Name of the service category
+  description: String,
+  slug: String,
+  // Add other relevant service category fields
+});
+
+const ReviewSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  entityId: { type: mongoose.Schema.Types.ObjectId, required: true },
+  entityType: { type: String, required: true }, // Example: 'ServiceProvider', 'Product', etc.
+  rating: { type: Number, required: true, min: 1, max: 5 },
+  comment: { type: String },
+  createdAt: { type: Date, default: Date.now },
 });
 
 // ServiceRequests Collection: Represents service requests made by customers.
 const ServiceRequestSchema = new mongoose.Schema({
-  customerId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Customer",
-    required: true,
-  }, // Reference to the customer
-  serviceProviderId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "ServiceProvider",
-  }, // Reference to the service provider
+  customerId: { type: String, required: true }, // Reference to the customer
+  serviceProviderId: { type: String, required: true }, // Reference to the service provider
   status: {
     type: String,
     enum: ["pending", "accepted", "completed", "rejected"],
     default: "pending",
   }, // Status of the service request
-  category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "ServiceCategory",
-    required: true,
-  }, // Service category of the request
+  category: { type: String }, // Service category of the request
   date: { type: Date, default: Date.now }, // Date and time of the service request
   isReviewed: { type: Boolean, default: false }, // Indicates whether the service provider has been reviewed
   // Add other relevant service request fields
@@ -100,12 +87,8 @@ export const ServiceCategory =
   mongoose.models?.ServiceCategory ||
   mongoose.model("ServiceCategory", ServiceCategorySchema);
 
-export const ServiceProvider =
-  mongoose.models?.ServiceProvider ||
-  mongoose.model("ServiceProvider", ServiceProviderSchema);
-
-export const Customer =
-  mongoose.models?.Customer || mongoose.model("Customer", CustomerSchema);
+export const Review =
+  mongoose.models?.Review || mongoose.model("Review", ReviewSchema);
 
 export const ServiceRequest =
   mongoose.models?.ServiceRequest ||
