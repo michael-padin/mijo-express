@@ -16,6 +16,7 @@ import { signIn, useSession } from "next-auth/react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -83,7 +84,11 @@ const LoginForm = () => {
             )}
           />
           <Button type="submit" className="w-full">
-            Log in
+            {form.formState.isSubmitting ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              "Log in"
+            )}
           </Button>
         </fieldset>
       </form>
