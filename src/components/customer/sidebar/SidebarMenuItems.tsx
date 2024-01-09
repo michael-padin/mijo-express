@@ -35,8 +35,7 @@ const sidebarMenu = [
   {
     groupName: "Working Space",
     items: [
-      { name: "User Feed", url: "feed", icon: Home },
-      { name: "Services", url: "services", icon: Briefcase },
+      { name: "Feed", url: "feed", icon: Home },
       { name: "Service Requests", url: "service-request", icon: Inbox },
       { name: "Appointments", url: "appointments", icon: Calendar },
     ],

@@ -32,7 +32,6 @@ export default function LoginForm() {
   });
 
   function onSubmit(data: z.infer<typeof loginSchema>) {
-    console.log({ data });
     toast({
       title: "You submitted the following values:",
       description: (

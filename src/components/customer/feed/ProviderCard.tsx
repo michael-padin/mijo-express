@@ -45,7 +45,7 @@ const ProviderCard = ({ providerInfo }: ProviderCardProps) => {
 
   return (
     <Dialog>
-      <Card className="w-[280px] overflow-hidden">
+      <Card className=" overflow-hidden">
         <CardContent className="flex flex-col gap-5">
           <div className="flex flex-col gap-5">
             <div className="">

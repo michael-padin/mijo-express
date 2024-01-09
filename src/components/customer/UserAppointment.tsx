@@ -24,8 +24,6 @@ import {
 import { Service } from "@/lib/types/userType";
 
 export default function UserAppointment({ services }: { services: Service[] }) {
-  console.log(services);
-
   return (
     <ScrollArea className="w-full">
       <div>
