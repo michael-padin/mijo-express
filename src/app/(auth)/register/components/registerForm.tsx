@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { MeInputAddress } from "@/components/me/MeInputAddress";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z
   .object({
@@ -62,7 +63,7 @@ const RegisterForm = () => {
             name="fullName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Full Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Your Name" {...field} />
                 </FormControl>
@@ -126,7 +127,11 @@ const RegisterForm = () => {
             )}
           />
           <Button type="submit" className="w-full">
-            Register
+            {form.formState.isSubmitting ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              "Register"
+            )}
           </Button>
         </fieldset>
       </form>

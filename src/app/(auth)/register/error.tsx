@@ -5,8 +5,6 @@ type ErrorProps = {
 };
 
 export default function Error({ error }: ErrorProps) {
-  console.log({ hehe: error.message });
-
   return (
     <div>
       <h1>Error</h1>
