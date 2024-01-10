@@ -15,7 +15,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { MeInputAddress } from "@/components/me/MeInputAddress";
+import { MeInputAddress } from "@/components/me/me-input-address";
 import { Loader2 } from "lucide-react";
 
 const formSchema = z
