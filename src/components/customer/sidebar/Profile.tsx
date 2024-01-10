@@ -7,7 +7,6 @@ import React from "react";
 const Profile = () => {
   const session = useSession();
 
-  console.log(session.data?.user);
   return (
     <div className="absolute bottom-0 left-0 right-0 border-t bg-background p-4">
       <div className="flex items-center gap-2">

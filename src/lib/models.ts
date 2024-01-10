@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { nanoid } from "nanoid";
 
 // Users Collection: Represents user accounts for administrators, service providers, and customers.
 const UserSchema = new mongoose.Schema({
@@ -67,16 +68,50 @@ const ReviewSchema = new mongoose.Schema({
 
 // ServiceRequests Collection: Represents service requests made by customers.
 const ServiceRequestSchema = new mongoose.Schema({
+  requestId: {
+    type: String,
+    required: true,
+    unique: true,
+    default: () => nanoid(10),
+  }, // Custom Unique identifier for the service request
   customerId: { type: String, required: true }, // Reference to the customer
-  serviceProviderId: { type: String, required: true }, // Reference to the service provider
+  serviceProviderId: { type: String }, // Reference to the service provider
+  fullName: { type: String }, // Customer's full name
+  email: { type: String }, // Customer's email
+  contactNumber: { type: String }, // Customer's contact number
+  address: { type: String }, // Customer's address
+  description: { type: String }, // Description of the service request
+  assignedTo: {
+    serviceProviderId: { type: String, default: "" },
+    serviceProviderImg: { type: String, default: "" },
+    serviceProviderName: { type: String, default: "" },
+  },
   status: {
     type: String,
-    enum: ["pending", "accepted", "completed", "rejected"],
+    enum: ["pending", "accepted", "cancelled", "completed", "rejected"],
     default: "pending",
   }, // Status of the service request
+  startEndDate: {
+    from: { type: Date },
+    to: { type: Date },
+  },
   category: { type: String }, // Service category of the request
   date: { type: Date, default: Date.now }, // Date and time of the service request
   isReviewed: { type: Boolean, default: false }, // Indicates whether the service provider has been reviewed
+  urgency: { type: String, enum: ["low", "medium", "high"] },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
+  attachments: [{ type: String }], // Attachments uploaded by the customer
+  budget: { type: Number }, // Budget of the service request
+  applicants: [
+    {
+      providerId: String,
+      application: String,
+      status: String,
+      createdAt: Date,
+      updatedAt: Date,
+    },
+  ],
   // Add other relevant service request fields
 });
 
