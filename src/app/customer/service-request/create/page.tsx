@@ -2,7 +2,9 @@ import { Separator } from "@/components/ui/separator";
 import ServiceRequestForm from "./components/service-request-form";
 
 const getCategories = async () => {
-  const response = await fetch("/api/customer/feed/categories");
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/customer/feed/categories`
+  );
   const categories = await response.json();
   return categories;
 };
