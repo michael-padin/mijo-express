@@ -5,7 +5,7 @@ const getCategories = async () => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/customer/feed/categories`
   );
-  const categories = await response.json();
+  const categories = response.json();
   return categories;
 };
 
