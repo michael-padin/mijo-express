@@ -6,6 +6,9 @@ const getCategories = async () => {
     `${process.env.BASE_URL}/api/customer/feed/categories`
   );
   const categories = response.json();
+
+  console.log(categories);
+
   return categories;
 };
 

@@ -6,7 +6,8 @@ const getProviders = async () => {
   const response = await fetch(
     `${process.env.BASE_URL}/api/customer/feed/providers`
   );
-  const providers = response.json();
+  const providers = await response.json();
+
   return providers;
 };
 
@@ -14,7 +15,7 @@ const getCategories = async () => {
   const response = await fetch(
     `${process.env.BASE_URL}/api/customer/feed/categories`
   );
-  const categories = response.json();
+  const categories = await response.json();
   return categories;
 };
 
