@@ -1,5 +1,5 @@
 "use client";
-import ProviderNotification from "@/app/providerpage/notification/page";
+import ProviderNotification from "./ProviderNotification";
 import ProviderProfile from "./ProviderProfile";
 
 import { useSearchParams } from "next/navigation";
