@@ -11,35 +11,20 @@ import {
 import { Input } from "@/components/ui/input";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { MeInputAddress } from "@/components/me/me-input-address";
 import { Loader2 } from "lucide-react";
-
-const formSchema = z
-  .object({
-    fullName: z.string().min(3),
-    email: z.string().email(),
-    password: z.string().min(6),
-    address: z.string().min(3),
-    confirmPassword: z.string().min(6),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
-
-type FormData = z.infer<typeof formSchema>;
+import { RegisterData, RegisterSchema } from "../data/schema";
 
 const RegisterForm = () => {
   const router = useRouter();
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<RegisterData>({
+    resolver: zodResolver(RegisterSchema),
   });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: RegisterData) => {
     const response = await fetch("/api/register", {
       method: "POST",
       body: JSON.stringify(data),

@@ -1,15 +1,6 @@
 import { checkEmailExists, createUser } from "@/lib/data";
 import { connectToDB } from "@/lib/utils";
 import { hash } from "bcrypt";
-import { NextResponse } from "next/server";
-import { z } from "zod";
-
-export const registerSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-  address: z.string().min(6),
-  fullName: z.string().min(6),
-});
 
 export async function POST(req: Request) {
   const ProvidersInfo = [
