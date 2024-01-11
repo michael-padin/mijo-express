@@ -1,16 +1,9 @@
 import { Separator } from "@/components/ui/separator";
 import ServiceRequestForm from "./components/service-request-form";
-
-const getCategories = async () => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/customer/feed/categories`
-  );
-  const categories = response.json();
-  return categories;
-};
+import { getAllServiceCategories } from "@/lib/data";
 
 export default async function CreateServiceRequestPage() {
-  const { categories } = await getCategories();
+  const categories = await getAllServiceCategories();
   return (
     <div className=" ">
       <div className=" space-y-6 p-10 pb-16 ">

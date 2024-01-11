@@ -35,7 +35,7 @@ const getAllProviders = async () => {
     );
     return providers;
   } catch (error) {
-    throw error;
+    throw new Error("Failed to fetch providers");
   }
 };
 
@@ -71,7 +71,7 @@ const getAllServiceCategories = async () => {
     const categories = await ServiceCategory.find();
     return categories;
   } catch (error) {
-    throw error;
+    throw new Error("Failed to fetch categories");
   }
 };
 
