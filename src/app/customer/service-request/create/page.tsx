@@ -5,10 +5,7 @@ const getCategories = async () => {
   const response = await fetch(
     `${process.env.BASE_URL}/api/customer/feed/categories`
   );
-  const categories = response.json();
-
-  console.log(categories);
-
+  const categories = await response.json();
   return categories;
 };
 

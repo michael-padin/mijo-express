@@ -11,6 +11,9 @@ export async function POST(req: Request) {
       statusText: "Job subbmitted successfully",
     });
   } catch (error) {
-    console.log(error);
+    return new Response("Error", {
+      status: 500,
+      statusText: "Internal Server Error",
+    });
   }
 }
