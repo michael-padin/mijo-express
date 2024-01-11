@@ -46,7 +46,7 @@ const Navbar = () => {
             <DropdownMenuTrigger>
               <Avatar>
                 <AvatarImage
-                  src={session.data?.user.profile.profileImg}
+                  src={session.data?.user.profileImg}
                   alt="@shadcn"
                 />
                 <AvatarFallback>

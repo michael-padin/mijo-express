@@ -13,33 +13,14 @@ const UserSchema = new mongoose.Schema({
     required: true,
     default: "customer",
   }, // User's role
-  profile: {
-    firstName: { type: String },
-    lastName: { type: String },
-    contactNumber: { type: String },
-    location: { type: String },
-    description: { type: String },
-    profileImg: { type: String },
-  },
+  contactNumber: { type: String },
+  description: { type: String },
+  profileImg: { type: String },
   ServiceCategory: [{ type: String }],
-  availability: [
-    {
-      dayOfWeek: {
-        type: String,
-        enum: [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday",
-        ],
-      },
-      startTime: String,
-      endTime: String,
-    },
-  ],
+  availability: {
+    from: { type: Date },
+    to: { type: Date },
+  },
   blockedTimeSlots: [
     {
       date: Date,
