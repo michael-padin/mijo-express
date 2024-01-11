@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import format from "date-fns/format";
 
 import { cn } from "@/lib/utils";
 import {
@@ -32,6 +31,7 @@ import {
 } from "@/components/ui/command";
 import { Calendar } from "@/components/ui/calendar";
 import { toast } from "@/components/ui/use-toast";
+import { format } from "date-fns/format";
 
 const languages = [
   { label: "English", value: "en" },

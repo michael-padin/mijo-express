@@ -7,7 +7,7 @@ const ServiceList = ({ providers }: any) => {
     <div className="w-full">
       <Separator className="my-6" />
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
-        {providers.map((provider) => (
+        {providers.map((provider: any) => (
           <ProviderCard key={provider._id} providerInfo={provider} />
         ))}
       </div>

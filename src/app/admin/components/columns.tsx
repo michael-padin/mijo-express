@@ -5,7 +5,7 @@ import { Transaction } from "./schema";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { Calendar } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Progress } from "@/components/ui/_app/progress";
+import { Progress } from "@/components/ui/progress";
 
 export const columns: ColumnDef<Transaction>[] = [
   {

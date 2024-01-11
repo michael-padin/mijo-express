@@ -5,7 +5,7 @@ import React from "react";
 const Categories = ({ categories }: any) => {
   return (
     <div className="">
-      {categories?.map((category) => (
+      {categories?.map((category: any) => (
         <Link
           key={category._id}
           className={buttonVariants({ variant: "link" })}
