@@ -4,11 +4,7 @@ export async function GET(req: Request) {
   try {
     const categories = await getAllServiceCategories();
 
-    return Response.json({
-      categories: categories,
-      success: true,
-      message: "Categories fetched successfully.",
-    });
+    return new Response(JSON.stringify(categories));
   } catch (error) {
     // console.log(error);
     // return Response.json({

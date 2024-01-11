@@ -1,12 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import ServiceList from "./components/ServiceList";
-import {
-  createServiceCategory,
-  getAllProviders,
-  getAllServiceCategories,
-} from "@/lib/data";
 import Categories from "./components/Categories";
-import { serviceCategories } from "@/lib/sampleData/userTransaction";
 
 const getProviders = async () => {
   const response = await fetch(

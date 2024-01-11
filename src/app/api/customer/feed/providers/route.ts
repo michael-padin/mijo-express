@@ -4,11 +4,7 @@ import { connectToDB } from "@/lib/utils";
 export async function GET(req: Request) {
   try {
     const providers = await getAllProviders();
-    return Response.json({
-      providers: providers,
-      success: true,
-      message: "Providers fetched successfully.",
-    });
+    return new Response(JSON.stringify(providers));
   } catch (error) {
     // console.log(error);
     // return Response.json({
