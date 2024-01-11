@@ -4,7 +4,7 @@ import Categories from "./components/Categories";
 
 const getProviders = async () => {
   const response = await fetch(
-    `${process.env.BASE_URL}/api/customer/feed/providers`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/customer/feed/providers`
   );
   const providers = await response.json();
 
@@ -13,7 +13,7 @@ const getProviders = async () => {
 
 const getCategories = async () => {
   const response = await fetch(
-    `${process.env.BASE_URL}/api/customer/feed/categories`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/customer/feed/categories`
   );
   const categories = await response.json();
   return categories;
