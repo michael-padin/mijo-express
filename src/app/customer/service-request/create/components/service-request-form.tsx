@@ -12,21 +12,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Separator } from "@/components/ui/separator";
 import { MeDatePickerWithRange } from "@/components/me/me-date-range-picker";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useState } from "react";
 
 const serviceRequestSchema = z.object({
   fullName: z.string().min(2),
@@ -64,7 +56,6 @@ type ServiceRequestFormProps = {
 export default function ServiceRequestForm({
   categories,
 }: ServiceRequestFormProps) {
-  const [role, setRole] = useState("customer");
   const form = useForm<ServiceRequestValues>({
     resolver: zodResolver(serviceRequestSchema),
     defaultValues: {
@@ -79,8 +70,8 @@ export default function ServiceRequestForm({
       budget: "",
       attachments: [],
       startEndDate: {
-        from: undefined,
-        to: undefined,
+        from: new Date(),
+        to: new Date(),
       },
     },
   });
@@ -183,52 +174,37 @@ export default function ServiceRequestForm({
             render={({ field }) => (
               <FormItem className="flex flex-1 flex-col">
                 <FormLabel>Category</FormLabel>
-                <Select
-                  onValueChange={(value) => {
-                    field.onChange(value);
-                    setRole(value);
-                  }}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a verified email to display" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {[{ label: "m@example.com", value: "m@example.com" }].map(
-                      (_) => (
-                        <SelectItem value={_.value}>{_.label}</SelectItem>
-                      )
-                    )}
-                    <SelectItem value="m@example.com">m@example.com</SelectItem>
-                    <SelectItem value="m@support.com">m@support.com</SelectItem>
-                  </SelectContent>
-                </Select>
+                <MeCombobox
+                  listOptions={categories?.map((category) => ({
+                    label: category.name,
+                    value: category._id,
+                  }))}
+                  onChange={field.onChange}
+                  placeholder="Select Category"
+                  value={field.value}
+                />
                 <FormDescription></FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          {role === "provider" && (
-            <FormField
-              control={form.control}
-              name="urgency"
-              render={({ field }) => (
-                <FormItem className="flex flex-1 flex-col">
-                  <FormLabel>Urgency</FormLabel>
-                  <MeCombobox
-                    listOptions={urgencyOptions}
-                    onChange={field.onChange}
-                    placeholder="Select Urgency"
-                    value={field.value}
-                  />
-                  <FormDescription>How urgent is this job?</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
+          <FormField
+            control={form.control}
+            name="urgency"
+            render={({ field }) => (
+              <FormItem className="flex flex-1 flex-col">
+                <FormLabel>Urgency</FormLabel>
+                <MeCombobox
+                  listOptions={urgencyOptions}
+                  onChange={field.onChange}
+                  placeholder="Select Urgency"
+                  value={field.value}
+                />
+                <FormDescription>How urgent is this job?</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         <FormField
