@@ -18,8 +18,8 @@ export default async function CreateServiceRequestPage() {
             </p>
           </div>
         </div>
-        <Separator className="my-6" />
-        <ServiceRequestForm categories={categories} />
+        {/* <Separator className="my-6" />
+        <ServiceRequestForm categories={categories} /> */}
       </div>
     </div>
   );
