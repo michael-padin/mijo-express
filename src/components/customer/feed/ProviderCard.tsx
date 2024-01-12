@@ -32,7 +32,7 @@ export interface ProviderInfo {
   password: string;
   address: string;
   role: string;
-  ServiceCategory: string[];
+  serviceCategory: string[];
   availability: Availability[];
   blockedTimeSlots: string[];
   createdAt: string;

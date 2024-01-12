@@ -54,7 +54,15 @@ type FormData = z.infer<typeof FormSchema>;
 export default function SubmitRequestForm({
   providerInfo,
 }: SubmitRequestFormProps) {
-  const { ServiceCategory, fullName, profile } = providerInfo;
+  const {
+    serviceCategory,
+    fullName,
+    description,
+    address,
+    contactNumber,
+    profileImg,
+    availability,
+  } = providerInfo;
   const session = useSession();
   const form = useForm<FormData>({
     resolver: zodResolver(FormSchema),
@@ -65,7 +73,7 @@ export default function SubmitRequestForm({
     },
   });
 
-  const serviceCategoryOptions = ServiceCategory.map((category) => ({
+  const serviceCategoryOptions = serviceCategory.map((category) => ({
     label: category,
     value: category,
   }));
@@ -92,7 +100,7 @@ export default function SubmitRequestForm({
             <div className="">
               <div className="mt-4 flex items-center gap-2">
                 <Avatar>
-                  <AvatarImage src={profile.profileImg} alt="@shadcn" />
+                  <AvatarImage src={profileImg} alt="@shadcn" />
                   <AvatarFallback>
                     {fullName.substring(0, 2).toUpperCase()}
                   </AvatarFallback>
@@ -115,17 +123,17 @@ export default function SubmitRequestForm({
                 <span className="text-xs text-muted-foreground">
                   Description
                 </span>
-                <p className="text-sm ">{profile.description}</p>
+                <p className="text-sm ">{description}</p>
               </div>
               {/* <p className="text-sm font-semibold">{price.toString()}</p> */}
               <div>
                 <div className="flex items-center gap-2">
                   <MapPin size={15} />
-                  <p className="text-sm ">{profile.location}</p>
+                  <p className="text-sm ">{address}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <Phone size={15} />
-                  <p className="text-sm ">{profile.contactNumber}</p>
+                  <p className="text-sm ">{contactNumber}</p>
                 </div>
               </div>
             </div>
