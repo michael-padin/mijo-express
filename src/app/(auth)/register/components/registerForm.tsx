@@ -76,6 +76,16 @@ const RegisterForm = () => {
   const router = useRouter();
   const form = useForm<RegisterData>({
     resolver: zodResolver(RegisterSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      address: "",
+      contact: "",
+      role: "customer",
+      skills: [],
+      password: "",
+      confirmPassword: "",
+    },
   });
 
   const onSubmit = async (data: RegisterData) => {
@@ -93,7 +103,7 @@ const RegisterForm = () => {
     router.push("/login");
   };
 
-  const [selectedRole, setSelectedRole] = useState("provider");
+  const [selectedRole, setSelectedRole] = useState("customer");
 
   const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedRole(event.target.value);
