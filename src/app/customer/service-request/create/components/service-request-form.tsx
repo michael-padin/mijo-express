@@ -46,11 +46,7 @@ const urgencyOptions = [
 type ServiceRequestValues = z.infer<typeof serviceRequestSchema>;
 
 type ServiceRequestFormProps = {
-  categories: {
-    _id: string;
-    name: string;
-    slug: string;
-  }[];
+  categories: any;
 };
 
 export default function ServiceRequestForm({
@@ -175,7 +171,7 @@ export default function ServiceRequestForm({
               <FormItem className="flex flex-1 flex-col">
                 <FormLabel>Category</FormLabel>
                 <MeCombobox
-                  listOptions={categories?.map((category) => ({
+                  listOptions={categories?.map((category: any) => ({
                     label: category.name,
                     value: category._id,
                   }))}
