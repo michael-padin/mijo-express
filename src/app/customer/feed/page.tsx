@@ -4,14 +4,13 @@ import Categories from "./components/Categories";
 import { getAllProviders, getAllServiceCategories } from "@/lib/data";
 
 export default async function ServicesPage() {
-  const categories = await getAllServiceCategories();
-  const providers = await getAllProviders();
+  const categories = JSON.parse(await getAllServiceCategories());
+  const providers = JSON.parse(await getAllProviders());
 
   return (
     <div className=" ">
-      <div className=" space-y-6 p-10 pb-16 ">
+      <div className=" space-y-6 p-5 pb-16 ">
         <div className="space-y-0.5">
-          ``
           <h2 className="text-2xl font-bold tracking-tight">
             Providers You May Find
           </h2>
