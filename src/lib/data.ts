@@ -1,8 +1,9 @@
 "use server";
 import { z } from "zod";
-import { ServiceCategory, ServiceRequest, User } from "./models";
+import { ServiceCategory, ServiceRequest, ServicesOffer, User } from "./models";
 import { connectToDB } from "./utils";
 import { serviceCategories } from "./sampleData/userTransaction";
+import { revalidatePath } from "next/cache";
 
 // Create a new user
 const createUser = async (userData: any) => {
@@ -33,9 +34,29 @@ const getAllProviders = async () => {
     const providers = await User.find({ role: "service_provider" }).select(
       "-password"
     );
-    return providers;
+    return JSON.stringify(providers);
   } catch (error) {
     throw new Error("Failed to fetch providers");
+  }
+};
+export const getProviderInfo = async (id: any) => {
+  try {
+    await connectToDB();
+
+    const providerInfo = await User.findById(id).select("-password");
+    return JSON.stringify(providerInfo);
+  } catch (error) {
+    throw new Error("Failed to fetch provider");
+  }
+};
+export const getServiceOfferByProvider = async (id: any) => {
+  try {
+    await connectToDB();
+
+    const services = await ServicesOffer.find({ serviceProviderId: id });
+    return JSON.stringify(services);
+  } catch (error) {
+    throw new Error("Failed to fetch provider");
   }
 };
 
@@ -69,7 +90,7 @@ const getAllServiceCategories = async () => {
   try {
     await connectToDB();
     const categories = await ServiceCategory.find();
-    return categories;
+    return JSON.stringify(categories);
   } catch (error) {
     throw new Error("Failed to fetch categories");
   }

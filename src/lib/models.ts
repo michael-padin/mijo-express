@@ -16,7 +16,6 @@ const UserSchema = new mongoose.Schema({
   contactNumber: { type: String },
   description: { type: String },
   profileImg: { type: String },
-  ServiceCategory: [{ type: String }],
   availability: {
     from: { type: Date },
     to: { type: Date },
@@ -26,6 +25,17 @@ const UserSchema = new mongoose.Schema({
       date: Date,
       startTime: String,
       endTime: String,
+    },
+  ],
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
+  startingPrice: { type: Number },
+  reviews: [
+    {
+      userId: { type: String, required: true },
+      rating: { type: Number, required: true, min: 1, max: 5 },
+      comment: { type: String },
+      createdAt: { type: Date, default: Date.now },
     },
   ],
 });
@@ -96,8 +106,22 @@ const ServiceRequestSchema = new mongoose.Schema({
   // Add other relevant service request fields
 });
 
+const ServiceOfferSchema = new mongoose.Schema({
+  serviceProviderId: { type: String, required: true },
+  serviceCategory: { type: String, required: true },
+  serviceDescription: { type: String },
+  servicePrice: { type: Number, required: true },
+  serviceDuration: { type: Number },
+  serviceImg: { type: String },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
+});
+
 // Export the schemas as models
 export const User = mongoose.models?.User || mongoose.model("User", UserSchema);
+export const ServicesOffer =
+  mongoose.models?.ServiceOffer ||
+  mongoose.model("ServiceOffer", ServiceOfferSchema);
 
 export const ServiceCategory =
   mongoose.models?.ServiceCategory ||
