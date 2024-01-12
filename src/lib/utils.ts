@@ -28,3 +28,11 @@ export const connectToDB = async () => {
     console.log(error);
   }
 };
+
+export const formatJoinDate = (date: Date): string => {
+  const options: Intl.DateTimeFormatOptions = {
+    month: "long",
+    year: "numeric",
+  };
+  return date.toLocaleDateString("en-US", options);
+};
