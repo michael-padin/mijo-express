@@ -25,7 +25,7 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import App from "next/app";
 import Autoplay from "embla-carousel-autoplay";
-import AppReviewCard from "./components/app-review-card";
+import AppReviewCard from "../components/landing/app-review-card";
 import {
   Carousel,
   CarouselContent,
