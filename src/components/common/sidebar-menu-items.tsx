@@ -33,7 +33,7 @@ const DashIcon: React.FC<IDashProps> = ({
 const SidebarMenuItems: React.FC = () => {
   const pathname = usePathname();
   const session = useSession();
-  const { role = "customer" } = session.data?.user || {};
+  const { role } = session.data?.user || {};
 
   const sidebarMenu = [
     {

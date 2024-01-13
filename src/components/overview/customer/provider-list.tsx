@@ -2,7 +2,7 @@
 import { Separator } from "@/components/ui/separator";
 import ProviderCard from "@/components/overview/customer/provider-card";
 
-const ServiceList = ({ providers }: any) => {
+const ProviderList = ({ providers }: any) => {
   return (
     <div className="w-full">
       <Separator className="my-6" />
@@ -15,4 +15,4 @@ const ServiceList = ({ providers }: any) => {
   );
 };
 
-export default ServiceList;
+export default ProviderList;

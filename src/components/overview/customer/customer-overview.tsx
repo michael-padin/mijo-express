@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
-import ServiceList from "./ServiceList";
 import { getAllProviders, getAllServiceCategories } from "@/lib/data";
 import Categories from "./categories";
+import ProviderList from "./provider-list";
 
 const CustomerOverview = async () => {
   const categories = JSON.parse(await getAllServiceCategories());
@@ -20,7 +20,7 @@ const CustomerOverview = async () => {
 
       <div className="">
         <Categories categories={categories} />
-        <ServiceList providers={providers} />
+        <ProviderList providers={providers} />
       </div>
     </div>
   );

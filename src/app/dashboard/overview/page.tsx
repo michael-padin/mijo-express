@@ -11,13 +11,10 @@ export default async function OverviewPage() {
   const { role = "customer" } = session?.user || {};
 
   return (
-    <>
-      <Navbar />
-      <ScrollArea className="m-auto h-[calc(100vh-72.8px)]">
-        {role === "customer" && <CustomerOverview />}
-        {role === "service_provider" && <ServiceProviderOverview />}
-        {role === "admin" && <AdminOverview />}
-      </ScrollArea>
-    </>
+    <div>
+      {role === "customer" && <CustomerOverview />}
+      {role === "service_provider" && <ServiceProviderOverview />}
+      {role === "admin" && <AdminOverview />}
+    </div>
   );
 }
