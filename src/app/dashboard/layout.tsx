@@ -1,9 +1,6 @@
-import Navbar from "@/components/common/navbar";
 import Profile from "@/components/common/profile";
 import SidebarMenuItems from "@/components/common/sidebar-menu-items";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@radix-ui/react-dropdown-menu";
 export default function RootLayout({
   children,
 }: {
