@@ -45,7 +45,7 @@ export async function getSkill() {
   }
 }
 
-const skills = [
+export const skills = [
   {
     id: "recents",
     label: "Recents",
@@ -82,13 +82,13 @@ const RegisterForm = () => {
       address: "",
       contact: "",
       role: "customer",
-      skills: [],
       password: "",
       confirmPassword: "",
     },
   });
 
   const onSubmit = async (data: RegisterData) => {
+    console.log({ data });
     const response = await fetch("/api/register", {
       method: "POST",
       body: JSON.stringify(data),
@@ -228,7 +228,7 @@ const RegisterForm = () => {
                                   onCheckedChange={(checked) => {
                                     return checked
                                       ? field.onChange([
-                                          ...field.value,
+                                          ...(field.value || []),
                                           item.id,
                                         ])
                                       : field.onChange(
@@ -281,6 +281,7 @@ const RegisterForm = () => {
               </FormItem>
             )}
           />
+
           <Button type="submit" className="w-full">
             {form.formState.isSubmitting ? (
               <Loader2 className="animate-spin" />

@@ -15,9 +15,12 @@ export const RegisterSchema = z
       }
     ),
     role: z.enum(["provider", "customer"]),
-    skills: z.array(z.string()).refine((value) => value.some((item) => item), {
-      message: "You have to select at least one item.",
-    }),
+    skills: z
+      .array(z.string())
+      .refine((value) => value.some((item) => item), {
+        message: "You have to select at least one item.",
+      })
+      .optional(),
     password: z.string().min(6),
     confirmPassword: z.string().min(6),
   })
