@@ -82,7 +82,6 @@ const RegisterForm = () => {
       address: "",
       contact: "",
       role: "customer",
-      skills: [],
       password: "",
       confirmPassword: "",
     },
@@ -228,7 +227,7 @@ const RegisterForm = () => {
                                   onCheckedChange={(checked) => {
                                     return checked
                                       ? field.onChange([
-                                          ...field.value,
+                                          ...(field.value ?? []),
                                           item.id,
                                         ])
                                       : field.onChange(
