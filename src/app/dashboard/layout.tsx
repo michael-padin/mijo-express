@@ -30,12 +30,7 @@ export default function RootLayout({
         <Profile />
       </div>
 
-      <div className="w-full lg:ml-72 ">
-        <Navbar />
-        <ScrollArea className="m-auto h-[calc(100vh-72.8px)]">
-          {children}
-        </ScrollArea>
-      </div>
+      <div className="w-full lg:ml-72 ">{children}</div>
     </div>
   );
 }

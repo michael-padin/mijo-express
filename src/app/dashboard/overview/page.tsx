@@ -8,13 +8,16 @@ import { authConfig } from "@/lib/auth.config";
 
 export default async function OverviewPage() {
   const session = await getServerSession(authConfig);
-  const { role = "customer" } = session?.user || {};
+  const { role } = session?.user || {};
 
   return (
-    <div>
-      {role === "customer" && <CustomerOverview />}
-      {role === "service_provider" && <ServiceProviderOverview />}
-      {role === "admin" && <AdminOverview />}
-    </div>
+    <>
+      <Navbar />
+      <ScrollArea className="m-auto h-[calc(100vh-72.8px)]">
+        {role === "customer" && <CustomerOverview />}
+        {role === "service_provider" && <ServiceProviderOverview />}
+        {role === "admin" && <AdminOverview />}
+      </ScrollArea>
+    </>
   );
 }

@@ -64,7 +64,7 @@ const Navbar = () => {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => signOut()}>
+              <DropdownMenuItem onClick={async () => await signOut()}>
                 Logout
               </DropdownMenuItem>
             </DropdownMenuContent>
