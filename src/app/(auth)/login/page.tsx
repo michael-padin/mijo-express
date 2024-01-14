@@ -5,6 +5,8 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import LoginForm from "./components/LoginForm";
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/lib/auth.config";
 
 export const metadata: Metadata = {
   title: "Log in",

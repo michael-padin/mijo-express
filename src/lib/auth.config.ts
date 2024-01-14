@@ -1,51 +1,37 @@
 import { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { login } from "./auth";
 
 export const authConfig = {
   pages: {
     signIn: "/login",
   },
-  providers: [],
-  // //   callbacks: {
-  // //     // FOR MORE DETAIL ABOUT CALLBACK FUNCTIONS CHECK https://next-auth.js.org/configuration/callbacks
-  // //     async jwt({ token, user }) {
-  // //       if (user) {
-  // //         token.id = user.id;
-  // //         token.isAdmin = user.isAdmin;
-  // //       }
-  // //       return token;
-  // //     },
-  // //     async session({ session, token }) {
-  // //       if (token) {
-  // //         session.user.id = token.id;
-  // //         session.user.isAdmin = token.isAdmin;
-  // //       }
-  // //       return session;
-  // //     },
-  // //     authorized({ auth, request }) {
-  // //       const user = auth?.user;
-  // //       const isOnAdminPanel = request.nextUrl?.pathname.startsWith("/admin");
-  // //       const isOnBlogPage = request.nextUrl?.pathname.startsWith("/blog");
-  // //       const isOnLoginPage = request.nextUrl?.pathname.startsWith("/login");
+  providers: [
+    CredentialsProvider({
+      credentials: {
+        email: {},
+        password: {},
+      },
+      async authorize(credentials, req) {
+        if (!credentials) return null;
 
-  // //       // ONLY ADMIN CAN REACH THE ADMIN DASHBOARD
+        const user = await login(credentials);
 
-  // //       if (isOnAdminPanel && !user?.isAdmin) {
-  // //         return false;
-  // //       }
+        if (user) {
+          return user;
+        }
 
-  // //       // ONLY AUTHENTICATED USERS CAN REACH THE BLOG PAGE
-
-  // //       if (isOnBlogPage && !user) {
-  // //         return false;
-  // //       }
-
-  // //       // ONLY UNAUTHENTICATED USERS CAN REACH THE LOGIN PAGE
-
-  // //       if (isOnLoginPage && user) {
-  // //         return Response.redirect(new URL("/", request.nextUrl));
-  // //       }
-
-  // //       return true
-  // //     },
-  //   },
+        return null;
+      },
+    }),
+  ],
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      return { ...token, ...user };
+    },
+    session: async ({ session, token }) => {
+      session.user = token as any;
+      return session;
+    },
+  },
 } satisfies NextAuthOptions;
