@@ -39,6 +39,47 @@ const getAllProviders = async () => {
     throw new Error("Failed to fetch providers");
   }
 };
+
+const getProvidersBySearch = async (searchValue: string) => {
+  try {
+    await connectToDB();
+
+    // find users by location or name, or services for from servicesschema
+    const providers = await User.find({
+      $or: [
+        { address: { $regex: searchValue, $options: "i" } },
+        { fullName: { $regex: searchValue, $options: "i" } },
+      ],
+    }).select("-password");
+
+    return JSON.stringify(providers);
+  } catch (error) {
+    throw new Error("Failed to fetch providers");
+  }
+};
+
+const getProvidersByCategory = async (categoryValue: string) => {
+  /**
+   * 1. get all services by category
+   * 2. get all providers return from 1 by getting the providerid field from servicesOffer
+   * 3. get all providers by id from 2
+   ***/
+  try {
+    await connectToDB();
+
+    const services = await ServicesOffer.find({
+      serviceCategorySlug: categoryValue,
+    });
+
+    const providers = await User.find({
+      _id: { $in: services.map((service) => service.serviceProviderId) },
+    }).select("-password");
+
+    return JSON.stringify(providers);
+  } catch (error) {
+    throw new Error("Failed to fetch providers");
+  }
+};
 export const getProviderInfo = async (id: any) => {
   try {
     await connectToDB();
@@ -149,7 +190,9 @@ const getAllServiceRequests = async () => {
 };
 
 export {
+  getProvidersByCategory,
   getAllProviders,
+  getProvidersBySearch,
   checkEmailExists,
   createUser,
   getAllUsers,

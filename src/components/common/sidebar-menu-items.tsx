@@ -73,10 +73,9 @@ const SidebarMenuItems: React.FC = () => {
                     key={index2 + 1}
                     className={cn(
                       buttonVariants({
-                        variant:
-                          pathname === `/dashboard/${item.url}`
-                            ? "default"
-                            : "ghost",
+                        variant: pathname.includes(item.url as string)
+                          ? "default"
+                          : "ghost",
                       }),
                       "flex flex-row justify-between rounded-md    p-2 px-4 transition-colors  "
                     )}

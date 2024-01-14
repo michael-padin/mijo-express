@@ -38,6 +38,7 @@ const UserSchema = new mongoose.Schema({
       createdAt: { type: Date, default: Date.now },
     },
   ],
+  skills: [{ type: String }],
 });
 
 // ServiceCategories Collection: Represents different service categories offered in the app.
@@ -109,6 +110,7 @@ const ServiceRequestSchema = new mongoose.Schema({
 const ServiceOfferSchema = new mongoose.Schema({
   serviceProviderId: { type: String, required: true },
   serviceCategory: { type: String, required: true },
+  serviceCategorySlug: { type: String, required: true },
   serviceDescription: { type: String },
   servicePrice: { type: Number, required: true },
   serviceDuration: { type: Number },

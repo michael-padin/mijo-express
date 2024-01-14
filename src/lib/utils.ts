@@ -36,3 +36,18 @@ export const formatJoinDate = (date: Date): string => {
   };
   return date.toLocaleDateString("en-US", options);
 };
+
+export const unslugAndCapitalize = (word: string) => {
+  // Split the word by hyphens
+  const words = word.split("-");
+
+  // Capitalize the first letter of each word
+  const capitalizedWords = words.map(
+    (w) => w.charAt(0).toUpperCase() + w.slice(1)
+  );
+
+  // Join the words back together
+  const result = capitalizedWords.join(" ");
+
+  return result;
+};
