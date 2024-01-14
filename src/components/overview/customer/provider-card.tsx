@@ -104,7 +104,7 @@ const ProviderCard = ({ providerInfo }: ProviderCardProps) => {
               </div>
               <p className="text-sm font-semibold">{`From  ₱${startingPrice.toString()}`}</p>
               <Link
-                href={`/customer/feed/provider-info/${_id}`}
+                href={`/dashboard/overview/provider-info/${_id}`}
                 className={cn(buttonVariants({ variant: "default" }))}
               >
                 Request a service
