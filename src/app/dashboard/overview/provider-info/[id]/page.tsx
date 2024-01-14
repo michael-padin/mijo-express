@@ -21,9 +21,11 @@ export default async function ProviderInfoPage({
   return (
     <div>
       <div className=" space-y-6 p-5 pb-16 ">
-        <div className="flex lg:gap-5 xl:gap-20">
-          <ServiceProviderInfo providerInfo={providerInfo} />
-          <Card className="lg:w-1/2 xl:w-[450px] ">
+        <div className="flex gap-2 lg:gap-5 xl:gap-20">
+          <div className="flex-2">
+            <ServiceProviderInfo providerInfo={providerInfo} />
+          </div>
+          <Card className="flex-1 ">
             <CardHeader>
               <CardTitle>Services Offered</CardTitle>
               <CardDescription>
