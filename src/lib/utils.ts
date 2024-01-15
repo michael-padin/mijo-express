@@ -29,6 +29,11 @@ export const connectToDB = async () => {
   }
 };
 
+// generate a reusable function the capitalize first 2 letters of a string and remove the reset
+export const capitalizeFirstTwoLetters = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
 export const formatJoinDate = (date: Date): string => {
   const options: Intl.DateTimeFormatOptions = {
     month: "long",
