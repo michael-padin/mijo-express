@@ -29,10 +29,30 @@ export const connectToDB = async () => {
   }
 };
 
+// generate a reusable function the capitalize first 2 letters of a string and remove the reset
+export const capitalizeFirstTwoLetters = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
 export const formatJoinDate = (date: Date): string => {
   const options: Intl.DateTimeFormatOptions = {
     month: "long",
     year: "numeric",
   };
   return date.toLocaleDateString("en-US", options);
+};
+
+export const unslugAndCapitalize = (word: string) => {
+  // Split the word by hyphens
+  const words = word.split("-");
+
+  // Capitalize the first letter of each word
+  const capitalizedWords = words.map(
+    (w) => w.charAt(0).toUpperCase() + w.slice(1)
+  );
+
+  // Join the words back together
+  const result = capitalizedWords.join(" ");
+
+  return result;
 };

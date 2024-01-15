@@ -9,7 +9,7 @@ const Categories = ({ categories }: any) => {
         <Link
           key={category._id}
           className={buttonVariants({ variant: "link" })}
-          href={`${category.slug}`}
+          href={`/dashboard/overview/categories/${category.slug}`}
         >
           {category.name}
         </Link>

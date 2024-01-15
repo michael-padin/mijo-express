@@ -1,6 +1,12 @@
 "use server";
 import { z } from "zod";
-import { ServiceCategory, ServiceRequest, ServicesOffer, User } from "./models";
+import {
+  Review,
+  ServiceCategory,
+  ServiceOffer,
+  ServiceRequest,
+  User,
+} from "./models";
 import { connectToDB } from "./utils";
 import { serviceCategories } from "./sampleData/userTransaction";
 import { revalidatePath } from "next/cache";
@@ -39,6 +45,47 @@ const getAllProviders = async () => {
     throw new Error("Failed to fetch providers");
   }
 };
+
+const getProvidersBySearch = async (searchValue: string) => {
+  try {
+    await connectToDB();
+
+    // find users by location or name, or services for from servicesschema
+    const providers = await User.find({
+      $or: [
+        { address: { $regex: searchValue, $options: "i" } },
+        { fullName: { $regex: searchValue, $options: "i" } },
+      ],
+    }).select("-password");
+
+    return JSON.stringify(providers);
+  } catch (error) {
+    throw new Error("Failed to fetch providers");
+  }
+};
+
+const getProvidersByCategory = async (categoryValue: string) => {
+  /**
+   * 1. get all services by category
+   * 2. get all providers return from 1 by getting the providerid field from servicesOffer
+   * 3. get all providers by id from 2
+   ***/
+  try {
+    await connectToDB();
+
+    const services = await ServiceOffer.find({
+      serviceCategorySlug: categoryValue,
+    });
+
+    const providers = await User.find({
+      _id: { $in: services.map((service: any) => service.serviceProviderId) },
+    }).select("-password");
+
+    return JSON.stringify(providers);
+  } catch (error) {
+    throw new Error("Failed to fetch providers");
+  }
+};
 export const getProviderInfo = async (id: any) => {
   try {
     await connectToDB();
@@ -49,14 +96,49 @@ export const getProviderInfo = async (id: any) => {
     throw new Error("Failed to fetch provider");
   }
 };
+
 export const getServiceOfferByProvider = async (id: any) => {
   try {
     await connectToDB();
 
-    const services = await ServicesOffer.find({ serviceProviderId: id });
+    const services = await ServiceOffer.find({ serviceProviderId: id });
     return JSON.stringify(services);
   } catch (error) {
     throw new Error("Failed to fetch provider");
+  }
+};
+
+const createReview = async (reviewData: any) => {
+  try {
+    await connectToDB();
+
+    const review = new Review(reviewData);
+    const newReview = await review.save();
+    return newReview;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getReviewsByProvider = async (id: string) => {
+  try {
+    await connectToDB();
+    const reviews = await Review.find({ providerId: id });
+    return JSON.stringify(reviews);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createServiceOffer = async (serviceOfferData: any) => {
+  try {
+    const serviceOffer = new ServiceOffer(serviceOfferData);
+    const newServiceOffer = await serviceOffer.save();
+    return newServiceOffer;
+  } catch (error) {
+    console.log(error);
+
+    throw error;
   }
 };
 
@@ -130,7 +212,13 @@ const getAllCustomers = async () => {
 // Create a new service request
 const createServiceRequest = async (requestData: any) => {
   try {
-    const request = new ServiceRequest(requestData);
+    const serviceOffer = await ServiceOffer.findOne({
+      serviceOfferId: requestData.serviceOfferId,
+    });
+
+    const newRequestData = { ...requestData, serviceOffer: serviceOffer };
+
+    const request = new ServiceRequest(newRequestData);
     const newRequest = await request.save();
     return newRequest;
   } catch (error) {
@@ -148,8 +236,25 @@ const getAllServiceRequests = async () => {
   }
 };
 
+const getCustomerServiceRequest = async (id: string) => {
+  try {
+    const requests = await ServiceRequest.find({ customerId: id });
+
+    //find serviceOffer by serviceOfferId in the requeests object array then add to the service offer to each object
+
+    return JSON.stringify(requests);
+  } catch (error) {
+    throw error;
+  }
+};
+
 export {
+  getCustomerServiceRequest,
+  getReviewsByProvider,
+  createReview,
+  getProvidersByCategory,
   getAllProviders,
+  getProvidersBySearch,
   checkEmailExists,
   createUser,
   getAllUsers,

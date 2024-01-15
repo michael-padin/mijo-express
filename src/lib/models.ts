@@ -20,13 +20,13 @@ const UserSchema = new mongoose.Schema({
     from: { type: Date },
     to: { type: Date },
   },
-  blockedTimeSlots: [
-    {
-      date: Date,
-      startTime: String,
-      endTime: String,
-    },
-  ],
+  // blockedTimeSlots: [
+  //   {
+  //     date: Date,
+  //     startTime: String,
+  //     endTime: String,
+  //   },
+  // ],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   startingPrice: { type: Number },
@@ -38,6 +38,7 @@ const UserSchema = new mongoose.Schema({
       createdAt: { type: Date, default: Date.now },
     },
   ],
+  skills: [{ type: String }],
 });
 
 // ServiceCategories Collection: Represents different service categories offered in the app.
@@ -49,11 +50,13 @@ const ServiceCategorySchema = new mongoose.Schema({
 });
 
 const ReviewSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  entityId: { type: mongoose.Schema.Types.ObjectId, required: true },
-  entityType: { type: String, required: true }, // Example: 'ServiceProvider', 'Product', etc.
-  rating: { type: Number, required: true, min: 1, max: 5 },
+  providerId: { type: String, required: true },
+  customerId: { type: String, required: true },
+  customerName: { type: String },
+  customerProfileImg: { type: String },
+  customerAddress: { type: String },
   comment: { type: String },
+  rating: { type: Number, required: true, min: 1, max: 5 },
   createdAt: { type: Date, default: Date.now },
 });
 
@@ -65,18 +68,31 @@ const ServiceRequestSchema = new mongoose.Schema({
     unique: true,
     default: () => nanoid(10),
   }, // Custom Unique identifier for the service request
-  customerId: { type: String, required: true }, // Reference to the customer
-  serviceProviderId: { type: String }, // Reference to the service provider
-  fullName: { type: String }, // Customer's full name
-  email: { type: String }, // Customer's email
-  contactNumber: { type: String }, // Customer's contact number
-  address: { type: String }, // Customer's address
-  description: { type: String }, // Description of the service request
-  assignedTo: {
-    serviceProviderId: { type: String, default: "" },
-    serviceProviderImg: { type: String, default: "" },
-    serviceProviderName: { type: String, default: "" },
+  serviceOfferId: { type: String }, // Reference to the service
+  serviceOffer: {
+    serviceOfferId: { type: String },
+    serviceCategory: { type: String },
+    serviceCategorySlug: { type: String },
+    serviceDescription: { type: String },
+    serviceTitle: { type: String },
+    servicePrice: { type: Number },
+    serviceDuration: { type: Number },
+    serviceImg: { type: String },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
   },
+  serviceProviderId: { type: String }, // Reference to the service provider
+  serviceProviderName: { type: String }, // Service provider's full name
+  serviceProvideAddress: { type: String }, // Service provider's address
+  serviceProviderEmail: { type: String }, // Service provider's address
+  serviceProviderContactNumber: { type: String }, // Service provider's contact number
+
+  customerId: { type: String, required: true }, // Reference to the customer
+  customerName: { type: String }, // Customer's full name
+  customerAddress: { type: String }, // Customer's address
+  customerEmail: { type: String }, // Customer's email
+  contactNumber: { type: String }, // Customer's contact number
+  customerDescription: { type: String }, // Description of the service request
   status: {
     type: String,
     enum: ["pending", "accepted", "cancelled", "completed", "rejected"],
@@ -86,31 +102,22 @@ const ServiceRequestSchema = new mongoose.Schema({
     from: { type: Date },
     to: { type: Date },
   },
-  category: { type: String }, // Service category of the request
-  date: { type: Date, default: Date.now }, // Date and time of the service request
   isReviewed: { type: Boolean, default: false }, // Indicates whether the service provider has been reviewed
-  urgency: { type: String, enum: ["low", "medium", "high"] },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   attachments: [{ type: String }], // Attachments uploaded by the customer
   budget: { type: Number }, // Budget of the service request
-  applicants: [
-    {
-      providerId: String,
-      application: String,
-      status: String,
-      createdAt: Date,
-      updatedAt: Date,
-    },
-  ],
   // Add other relevant service request fields
 });
 
 const ServiceOfferSchema = new mongoose.Schema({
-  serviceProviderId: { type: String, required: true },
-  serviceCategory: { type: String, required: true },
+  serviceOfferId: { type: String, required: true, default: () => nanoid(10) },
+  serviceProviderId: { type: String },
+  serviceCategory: { type: String },
+  serviceCategorySlug: { type: String },
   serviceDescription: { type: String },
-  servicePrice: { type: Number, required: true },
+  serviceTitle: { type: String },
+  servicePrice: { type: Number },
   serviceDuration: { type: Number },
   serviceImg: { type: String },
   createdAt: { type: Date, default: Date.now },
@@ -119,7 +126,7 @@ const ServiceOfferSchema = new mongoose.Schema({
 
 // Export the schemas as models
 export const User = mongoose.models?.User || mongoose.model("User", UserSchema);
-export const ServicesOffer =
+export const ServiceOffer =
   mongoose.models?.ServiceOffer ||
   mongoose.model("ServiceOffer", ServiceOfferSchema);
 

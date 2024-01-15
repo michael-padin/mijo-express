@@ -12,12 +12,9 @@ export default async function OverviewPage() {
 
   return (
     <>
-      <Navbar />
-      <ScrollArea className="m-auto h-[calc(100vh-72.8px)]">
-        {role === "customer" && <CustomerOverview />}
-        {role === "service_provider" && <ServiceProviderOverview />}
-        {role === "admin" && <AdminOverview />}
-      </ScrollArea>
+      {role === "customer" && <CustomerOverview />}
+      {role === "service_provider" && <ServiceProviderOverview />}
+      {role === "admin" && <AdminOverview />}
     </>
   );
 }

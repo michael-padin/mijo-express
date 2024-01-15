@@ -5,8 +5,15 @@ import Link from "next/link";
 import { DataTable } from "./components/data-table";
 import { columns } from "./components/columns";
 import { transactionData } from "./components/data";
+import { getCustomerServiceRequest } from "@/lib/data";
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/lib/auth.config";
 
 export default async function SericeRequestPage() {
+  const session = await getServerSession(authConfig);
+  const serviceRequests = JSON.parse(
+    await getCustomerServiceRequest(session?.user._id || "")
+  );
   return (
     <div className=" ">
       <div className=" space-y-6 p-10 pb-16 ">
@@ -21,7 +28,7 @@ export default async function SericeRequestPage() {
           </div>
           <div>
             <Link
-              href="/customer/service-request/create"
+              href="/dashboard/overview"
               className={cn(buttonVariants({ variant: "default" }))}
             >
               New Request
@@ -29,7 +36,7 @@ export default async function SericeRequestPage() {
           </div>
         </div>
         <Separator className="my-6" />
-        <DataTable columns={columns} data={transactionData} />
+        <DataTable columns={columns} data={serviceRequests} />
       </div>
     </div>
   );

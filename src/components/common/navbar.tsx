@@ -1,9 +1,7 @@
 "use client";
 
-import { Bell, Info, MessageSquare } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,23 +12,21 @@ import {
 } from "../ui/dropdown-menu";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import { Accordion } from "@radix-ui/react-accordion";
 import ModeToggle from "./mode-toggle";
+import { usePathname } from "next/navigation";
+import SearchProviderInput from "./search-provider-input";
 
 const Navbar = () => {
   const session = useSession();
+  const pathname = usePathname();
+
   return (
     <div className="sticky w-full border-b px-5 py-4">
-      <div className="flex justify-end">
-        {/* <div className="flex items-center bg-muted px-4 rounded w-1/3">
-					<Search />
-					<Input
-						placeholder="Search"
-						className={cn(
-							"border-0  outline-none ring-0 border-none shadow-none focus-visible:ring-0 focus-visible:outline-none"
-						)}
-					/>
-				</div> */}
+      <div className="flex justify-between">
+        <div className="w-1/2">
+          {session.data?.user.role === "customer" &&
+            pathname.includes("overview") && <SearchProviderInput />}
+        </div>
         <div className="flex gap-3">
           <ModeToggle />
           {/* <Button variant={"ghost"} size="icon">

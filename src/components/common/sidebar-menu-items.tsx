@@ -40,9 +40,9 @@ const SidebarMenuItems: React.FC = () => {
       groupName: "Working Space",
       items: [
         { name: "Overview", url: "overview", icon: Home },
-        ...(role === "customer"
-          ? [{ name: "Providers", url: "providers", icon: Briefcase }]
-          : []),
+        // ...(role === "customer"
+        //   ? [{ name: "Providers", url: "providers", icon: Briefcase }]
+        //   : []),
         { name: "Service Request", url: "service-request", icon: Inbox },
         { name: "Appointments", url: "appointments", icon: Calendar },
         ...(role === "service_provider"
@@ -73,10 +73,9 @@ const SidebarMenuItems: React.FC = () => {
                     key={index2 + 1}
                     className={cn(
                       buttonVariants({
-                        variant:
-                          pathname === `/dashboard/${item.url}`
-                            ? "default"
-                            : "ghost",
+                        variant: pathname.includes(item.url as string)
+                          ? "default"
+                          : "ghost",
                       }),
                       "flex flex-row justify-between rounded-md    p-2 px-4 transition-colors  "
                     )}

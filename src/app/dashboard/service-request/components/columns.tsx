@@ -3,83 +3,71 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ServiceRequestAction } from "./service-request-action";
+import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { MeDatePickerWithRange } from "@/components/me/me-date-range-picker";
 
 export const columns: ColumnDef<any>[] = [
+  // {
+  //   accessorKey: "_id",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="ID" />
+  //   ),
+  //   cell: ({ row }) => {
+  //     return (
+  //       <span className="max-w-[500px] truncate font-medium">
+  //         {row.getValue("_id")}
+  //       </span>
+  //     );
+  //   },
+  //   enableSorting: false,
+  // },
   {
-    accessorKey: "ID",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="ID" />
-    ),
-    cell: ({ row }) => {
-      // return (
-      // 	<span className="max-w-[500px] truncate font-medium">
-      // 		{row.getValue("name")}
-      // 	</span>
-      // );
-      return <span>id</span>;
-    },
-    enableSorting: false,
-  },
-  {
-    accessorKey: "Category",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Category" />
-    ),
-    cell: ({ row }) => {
-      const progress = Number(row.getValue("progress"));
-
-      // return <Progress value={progress} className="w-[60%] h-[6px]" />;
-      return <span>category</span>;
-    },
-    enableSorting: false,
-  },
-  {
-    accessorKey: "description",
+    accessorKey: "customerDescription",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Description" />
     ),
     cell: ({ row }) => {
-      // const status = row.getValue("status") as keyof typeof statusClasses;
-
-      // const statusClasses = {
-      // 	Low: "inline-flex items-center m-2 px-3 py-2 bg-success-100  rounded-full text-sm text-success-700",
-      // 	Medium:
-      // 		"inline-flex items-center m-2 px-3 py-2 bg-warning-100  rounded-full text-sm text-warning-700",
-      // 	High: "inline-flex items-center m-2 px-3 py-2 bg-danger-100  rounded-full text-sm text-danger-700",
-      // };
-
-      // const statusClass = statusClasses[status];
-
-      // if (statusClass) {
-      // 	return (
-      // 		<span
-      // 			className={`text-xs font-medium me-2 p-2 rounded-full ${statusClass}`}>
-      // 			{status}
-      // 		</span>
-      // 	);
-      // } else {
-      // 	return null;
-      // }
-      return <span>description</span>;
+      const { serviceCategory } = row.getValue("serviceOffer") as any;
+      return (
+        <div className="flex space-x-2">
+          {serviceCategory && (
+            <Badge variant="outline">{serviceCategory}</Badge>
+          )}
+          <span className="max-w-[500px] truncate font-medium">
+            {row.getValue("customerDescription")}
+          </span>
+        </div>
+      );
     },
     enableHiding: false,
   },
   {
-    accessorKey: "date",
+    accessorKey: "startEndDate",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Date" />
+      <DataTableColumnHeader column={column} title="Start Date - End Date" />
     ),
     cell: ({ row }) => {
-      return <span className="flex flex-col">Date urgency - high</span>;
+      return (
+        <span className="flex flex-col">
+          <MeDatePickerWithRange date={row.getValue("startEndDate")} disabled />
+        </span>
+      );
     },
+    enableSorting: false,
   },
   {
-    accessorKey: "budget",
+    accessorKey: "serviceOffer",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Budget" />
+      <DataTableColumnHeader column={column} title=" Price " />
     ),
     cell: ({ row }) => {
-      return <span>budget</span>;
+      const serviceOffered: any = row.getValue("serviceOffer");
+      console.log(serviceOffered);
+
+      return <span>₱ {serviceOffered?.servicePrice}</span>;
     },
   },
 
@@ -90,29 +78,36 @@ export const columns: ColumnDef<any>[] = [
       <DataTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
-      // return (
-      // 	<Avatar>
-      // 		<AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-      // 		<AvatarFallback>CN</AvatarFallback>
-      // 	</Avatar>
-      // );
+      // generate badges by status
+      // generate badges by status
+      const status = row.getValue("status") as string;
 
-      return <span>status</span>;
+      if (status === "pending") {
+        return (
+          <Badge className="bg-yellow-100 text-yellow-800">{status}</Badge>
+        );
+      } else if (status === "accepted") {
+        return <Badge className="bg-green-100 text-green-800">{status}</Badge>;
+      } else if (status === "completed") {
+        return (
+          <Badge className="bg-indigo-100 text-indigo-800">{status}</Badge>
+        );
+      } else if (status === "cancelled") {
+        return (
+          <Badge className="bg-purple-100 text-purple-800">{status}</Badge>
+        );
+      }
+      return <Badge>{status}</Badge>;
     },
   },
   {
     enableSorting: false,
-    accessorKey: "provider",
+    accessorKey: "serviceProviderName",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Provider" />
     ),
     cell: ({ row }) => {
-      return (
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-      );
+      return <p className="font-bold">{row.getValue("serviceProviderName")}</p>;
     },
   },
   {
