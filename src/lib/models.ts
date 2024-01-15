@@ -50,13 +50,22 @@ const ServiceCategorySchema = new mongoose.Schema({
 });
 
 const ReviewSchema = new mongoose.Schema({
+  serviceRequestId: { type: String, required: true },
+
   providerId: { type: String, required: true },
+  providerName: { type: String },
+  providerProfileImg: { type: String },
+  providerAddress: { type: String },
+  providerComment: { type: String },
+  providerRating: { type: Number },
+
   customerId: { type: String, required: true },
   customerName: { type: String },
   customerProfileImg: { type: String },
   customerAddress: { type: String },
-  comment: { type: String },
-  rating: { type: Number, required: true, min: 1, max: 5 },
+  customerComment: { type: String },
+  customerRating: { type: Number },
+
   createdAt: { type: Date, default: Date.now },
 });
 
@@ -103,6 +112,8 @@ const ServiceRequestSchema = new mongoose.Schema({
     to: { type: Date },
   },
   isReviewed: { type: Boolean, default: false }, // Indicates whether the service provider has been reviewed
+  isCustomerReviewed: { type: Boolean, default: false }, // Indicates whether the service provider has been reviewed
+  isProviderReviewed: { type: Boolean, default: false }, // Indicates whether the service provider has been reviewed
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   attachments: [{ type: String }], // Attachments uploaded by the customer

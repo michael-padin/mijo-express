@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { MeDatePickerWithRange } from "@/components/me/me-date-range-picker";
+import Link from "next/link";
 
 export const columns: ColumnDef<any>[] = [
   // {
@@ -27,15 +28,14 @@ export const columns: ColumnDef<any>[] = [
   {
     accessorKey: "customerDescription",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Description" />
+      <DataTableColumnHeader column={column} title="DESCRIPTION" />
     ),
     cell: ({ row }) => {
-      const { serviceCategory } = row.getValue("serviceOffer") as any;
+      const category = row.original.serviceOffer.serviceCategory as any;
+
       return (
         <div className="flex space-x-2">
-          {serviceCategory && (
-            <Badge variant="outline">{serviceCategory}</Badge>
-          )}
+          {category && <Badge variant="outline">{category}</Badge>}
           <span className="max-w-[500px] truncate font-medium">
             {row.getValue("customerDescription")}
           </span>
@@ -44,38 +44,24 @@ export const columns: ColumnDef<any>[] = [
     },
     enableHiding: false,
   },
+
   {
     accessorKey: "startEndDate",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Start Date - End Date" />
+      <DataTableColumnHeader column={column} title="DUE ON" />
     ),
     cell: ({ row }) => {
-      return (
-        <span className="flex flex-col">
-          <MeDatePickerWithRange date={row.getValue("startEndDate")} disabled />
-        </span>
-      );
+      const due = (row.getValue("startEndDate") as { to: Date }).to;
+      return <span className="flex flex-col">{format(due, "LLL dd, y")}</span>;
     },
     enableSorting: false,
-  },
-  {
-    accessorKey: "serviceOffer",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title=" Price " />
-    ),
-    cell: ({ row }) => {
-      const serviceOffered: any = row.getValue("serviceOffer");
-      console.log(serviceOffered);
-
-      return <span>₱ {serviceOffered?.servicePrice}</span>;
-    },
   },
 
   {
     enableSorting: false,
     accessorKey: "status",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
+      <DataTableColumnHeader column={column} title="STATUS" />
     ),
     cell: ({ row }) => {
       // generate badges by status
@@ -84,21 +70,46 @@ export const columns: ColumnDef<any>[] = [
 
       if (status === "pending") {
         return (
-          <Badge className="bg-yellow-100 text-yellow-800">{status}</Badge>
+          <Badge
+            className={cn("bg-yellow-100 text-yellow-800")}
+            variant="outline"
+          >
+            {status}
+          </Badge>
         );
       } else if (status === "accepted") {
-        return <Badge className="bg-green-100 text-green-800">{status}</Badge>;
+        return (
+          <Badge className="bg-green-100 text-green-800" variant="outline">
+            {status}
+          </Badge>
+        );
       } else if (status === "completed") {
         return (
-          <Badge className="bg-indigo-100 text-indigo-800">{status}</Badge>
+          <Badge className="bg-indigo-100 text-indigo-800" variant="outline">
+            {status}
+          </Badge>
         );
       } else if (status === "cancelled") {
         return (
-          <Badge className="bg-purple-100 text-purple-800">{status}</Badge>
+          <Badge className="bg-purple-100 text-purple-800" variant="outline">
+            {status}
+          </Badge>
         );
       }
       return <Badge>{status}</Badge>;
     },
+  },
+  {
+    accessorKey: "total",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="TOTAL " />
+    ),
+    cell: ({ row }) => {
+      const price: any = row.original.serviceOffer.servicePrice;
+
+      return <span className="">₱ {price}</span>;
+    },
+    enableSorting: false,
   },
   {
     enableSorting: false,
@@ -107,17 +118,24 @@ export const columns: ColumnDef<any>[] = [
       <DataTableColumnHeader column={column} title="Provider" />
     ),
     cell: ({ row }) => {
-      return <p className="font-bold">{row.getValue("serviceProviderName")}</p>;
+      return (
+        <Link
+          href={`/dashboard/overview/provider-info/${row.original.serviceProviderId}`}
+          className="font-bold hover:underline"
+        >
+          {row.getValue("serviceProviderName")}
+        </Link>
+      );
     },
   },
   {
     enableSorting: false,
     accessorKey: "action",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Action" />
+      <DataTableColumnHeader column={column} title="ACTION" />
     ),
     cell: ({ row }) => {
-      return <ServiceRequestAction id="eheheh" />;
+      return <ServiceRequestAction id="eheheh" requestInfo={row.original} />;
     },
   },
 ];
