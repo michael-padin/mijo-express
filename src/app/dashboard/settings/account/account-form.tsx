@@ -90,7 +90,7 @@ const accountFormSchema = z.object({
       message: "Invalid contact number format",
     }
   ),
-  role: z.enum(["provider", "customer"]),
+  role: z.enum(["service_provider", "customer", "admin"]),
   skills: z
     .array(z.string())
     .refine((value) => value.some((item) => item), {
@@ -216,7 +216,7 @@ export function AccountForm() {
           )}
         />
 
-        {role === "provider" && (
+        {role === "service_provider" && (
           <>
             <Separator />
             <FormField
