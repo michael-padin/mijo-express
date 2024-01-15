@@ -1,13 +1,19 @@
-import React from "react";
-import { Mail, MapPin, Phone, PhoneIcon } from "lucide-react";
+"use client";
+import { Mail, PhoneIcon } from "lucide-react";
 import { StarFilledIcon } from "@radix-ui/react-icons";
 import { Separator } from "@/components/ui/separator";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn, formatJoinDate } from "@/lib/utils";
+import ReviewCard from "./review-card/review-card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 
 interface Profile {
   firstName: string;
@@ -43,9 +49,10 @@ export interface ProviderInfo {
 
 type ProviderCardProps = {
   providerInfo: ProviderInfo;
+  reviews: any[];
 };
 
-const ProviderCard = ({ providerInfo }: ProviderCardProps) => {
+const ProviderCard = ({ providerInfo, reviews }: ProviderCardProps) => {
   const {
     fullName,
     profileImg,
@@ -57,6 +64,9 @@ const ProviderCard = ({ providerInfo }: ProviderCardProps) => {
     address,
     _id,
   } = providerInfo;
+
+  const totalRatings =
+    reviews.reduce((acc, rating) => acc + rating.rating, 0) / reviews.length;
 
   return (
     <div className="flex-1">
@@ -85,11 +95,14 @@ const ProviderCard = ({ providerInfo }: ProviderCardProps) => {
                   {address}
                 </time>
               </p>
-              <div className="inline-flex items-center gap-1 text-sm">
-                <StarFilledIcon className="" />
-                <span className="font-semibold">5.0</span>
-                <span>(400)</span>
-              </div>
+              <Link
+                className="inline-flex items-center gap-1 text-sm hover:underline"
+                href="#reviews"
+              >
+                <StarFilledIcon color="gold" />
+                <span className="font-semibold">{totalRatings}</span>
+                <span>{`(${reviews.length})`}</span>
+              </Link>
             </div>
           </div>
         </div>
@@ -111,6 +124,21 @@ const ProviderCard = ({ providerInfo }: ProviderCardProps) => {
               {email}
             </p>
           </div>
+        </div>
+        <div className="mt-10" id="reviews">
+          <Card>
+            <CardHeader>
+              <CardTitle>Reviews</CardTitle>
+              <CardDescription>
+                See what other customers say about this provider.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {reviews.map((review) => (
+                <ReviewCard reviewInfo={review} key={review._id} />
+              ))}
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

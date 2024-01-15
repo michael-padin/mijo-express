@@ -40,9 +40,9 @@ const SidebarMenuItems: React.FC = () => {
       groupName: "Working Space",
       items: [
         { name: "Overview", url: "overview", icon: Home },
-        ...(role === "customer"
-          ? [{ name: "Providers", url: "providers", icon: Briefcase }]
-          : []),
+        // ...(role === "customer"
+        //   ? [{ name: "Providers", url: "providers", icon: Briefcase }]
+        //   : []),
         { name: "Service Request", url: "service-request", icon: Inbox },
         { name: "Appointments", url: "appointments", icon: Calendar },
         ...(role === "service_provider"
