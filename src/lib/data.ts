@@ -238,6 +238,7 @@ const getAllServiceRequests = async () => {
 
 const getCustomerServiceRequest = async (id: string) => {
   try {
+    await connectToDB();
     const requests = await ServiceRequest.find({ customerId: id });
 
     //find serviceOffer by serviceOfferId in the requeests object array then add to the service offer to each object
@@ -248,7 +249,21 @@ const getCustomerServiceRequest = async (id: string) => {
   }
 };
 
+const updateServiceRequest = async (payload: any) => {
+  try {
+    const { updatedServiceRequestData, serviceRequestId } = payload;
+    const request = await ServiceRequest.findOneAndUpdate(
+      { requestId: serviceRequestId },
+      updatedServiceRequestData
+    );
+    return request;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export {
+  updateServiceRequest,
   getCustomerServiceRequest,
   getReviewsByProvider,
   createReview,

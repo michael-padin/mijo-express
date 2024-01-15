@@ -31,7 +31,12 @@ export const connectToDB = async () => {
 
 // generate a reusable function the capitalize first 2 letters of a string and remove the reset
 export const capitalizeFirstTwoLetters = (str: string) => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+  const initials = str
+    .split(" ") // Split the full name into an array of words
+    .slice(0, 2) // Take only the first two words
+    .map((word) => word.charAt(0)) // Extract the first character of each word
+    .join(""); // Join the extracted characters into a single string
+  return initials;
 };
 
 export const formatJoinDate = (date: Date): string => {

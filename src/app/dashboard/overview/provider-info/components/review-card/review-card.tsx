@@ -17,8 +17,8 @@ type IReview = {
   customerName?: string;
   customerProfileImg?: string;
   customerAddress?: string;
-  comment?: string;
-  rating: number;
+  customerComment?: string;
+  customerRating: number;
   createdAt?: Date;
 };
 
@@ -31,8 +31,8 @@ const ReviewCard = ({ reviewInfo }: ReviewCardProps) => {
     customerName,
     customerProfileImg,
     customerAddress,
-    comment,
-    rating,
+    customerComment,
+    customerRating,
     createdAt,
   } = reviewInfo;
   return (
@@ -58,10 +58,10 @@ const ReviewCard = ({ reviewInfo }: ReviewCardProps) => {
       </div>
       <div className="mt-4">
         <div className="inline-flex items-center gap-1 text-sm">
-          <StarRating rating={rating} />
-          <span className="font-semibold">{rating.toFixed(1)}</span>
+          <StarRating rating={customerRating} />
+          <span className="font-semibold">{customerRating.toFixed(1)}</span>
         </div>
-        <p className="text-sm text-muted-foreground">{comment}</p>
+        <p className="text-sm text-muted-foreground">{customerComment}</p>
         <Separator className="my-4" />
       </div>
     </div>

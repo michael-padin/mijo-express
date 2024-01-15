@@ -66,7 +66,8 @@ const ProviderCard = ({ providerInfo, reviews }: ProviderCardProps) => {
   } = providerInfo;
 
   const totalRatings =
-    reviews.reduce((acc, rating) => acc + rating.rating, 0) / reviews.length;
+    reviews.reduce((acc, rating) => acc + rating.customerRating, 0) /
+    reviews.length;
 
   return (
     <div className="flex-1">
@@ -100,7 +101,7 @@ const ProviderCard = ({ providerInfo, reviews }: ProviderCardProps) => {
                 href="#reviews"
               >
                 <StarFilledIcon color="gold" />
-                <span className="font-semibold">{totalRatings}</span>
+                <span className="font-semibold">{totalRatings.toFixed(1)}</span>
                 <span>{`(${reviews.length})`}</span>
               </Link>
             </div>
