@@ -99,8 +99,6 @@ export default function ServiceRequestForm({
       body: JSON.stringify(data),
     });
 
-    console.log(data);
-
     if (response.ok) {
       toast.success("Service request sent successfully");
       form.reset();

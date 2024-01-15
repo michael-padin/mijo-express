@@ -22,8 +22,6 @@ export async function POST(req: Request) {
       serviceRequestId: response.serviceRequestId,
     });
 
-    revalidatePath("/dashboard/service-request");
-
     return new Response("Success", {
       status: 200,
       statusText: "Review submitted successfully",

@@ -108,6 +108,14 @@ export const ServiceRequestAction = ({
       method: "POST",
       body: JSON.stringify(data),
     });
+
+    if (respones.status === 200) {
+      toast.success("Review submitted successfully");
+      form.reset(defaultValues);
+      router.refresh();
+      return;
+    }
+
     form.reset(defaultValues);
     router.refresh();
   };
