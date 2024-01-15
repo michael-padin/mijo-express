@@ -8,7 +8,7 @@ declare module "next-auth" {
       contact: string;
       skills: [];
       accessToken: string;
-      role: "customer" | "provider" | undefined;
+      role: "customer" | "service_provider" | "admin";
       address: string;
       _id: string;
       profileImg: string;
