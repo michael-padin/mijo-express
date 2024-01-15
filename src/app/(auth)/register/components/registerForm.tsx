@@ -103,13 +103,6 @@ const RegisterForm = () => {
     router.push("/login");
   };
 
-  const [selectedRole, setSelectedRole] = useState("customer");
-
-  const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedRole(event.target.value);
-    // Additional logic based on the selected role can be added here
-  };
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -177,7 +170,6 @@ const RegisterForm = () => {
                 <FormLabel>User Type</FormLabel>
                 <Select
                   onValueChange={(value) => {
-                    setSelectedRole(value);
                     field.onChange(value);
                   }}
                   defaultValue={field.value}
@@ -197,7 +189,7 @@ const RegisterForm = () => {
             )}
           />
 
-          {selectedRole === "provider" && (
+          {form.getValues("role") === "provider" && (
             <>
               <Separator />
               <FormField
