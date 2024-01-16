@@ -26,7 +26,13 @@ export type ServiceRequest = {
   customerEmail?: string;
   contactNumber?: string;
   customerDescription?: string;
-  status: "pending" | "accepted" | "cancelled" | "completed" | "rejected";
+  status:
+    | "pending"
+    | "accepted"
+    | "cancelled"
+    | "completed"
+    | "rejected"
+    | "delivered";
   startEndDate: {
     from: Date;
     to: Date;
@@ -42,7 +48,6 @@ export type ServiceRequest = {
 };
 
 export type ServiceRequestActionProps = {
-  id: string;
   requestInfo: ServiceRequest;
 };
 

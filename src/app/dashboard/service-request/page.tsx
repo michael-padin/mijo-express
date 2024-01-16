@@ -4,20 +4,23 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { CustomerDataTable } from "./components/data-table";
 import { columns } from "./components/columns";
-import { transactionData } from "./components/data";
 import {
+  getAllServiceRequestsByRole,
   getCustomerServiceRequest,
   getProviderServiceRequest,
 } from "@/lib/data";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/lib/auth.config";
-import { providerColumns } from "./components/provider/provider-columns";
 import { Inbox } from "lucide-react";
 import { Card, CardHeader } from "@/components/ui/card";
-import { AdminDataTable } from "./components/admin/data-table";
+import { AdminCustomerDatable } from "./components/admin/admin-customer-data-table";
 import { ProviderDataTable } from "./components/provider/data-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { admineServiceRequestColumns } from "./components/admin/admin-customer-columns";
+import { adminProviderColumns } from "./components/admin/admin-provider-columns";
+import { providerColumns } from "./components/provider/provider-columns";
+import { AdminProviderDatable } from "./components/admin/admin-provider-data-table";
 
 export default async function SericeRequestPage() {
   const session = await getServerSession(authConfig);
@@ -28,9 +31,12 @@ export default async function SericeRequestPage() {
   const providerServiceRequests =
     role === "service_provider" &&
     JSON.parse(await getProviderServiceRequest(session?.user._id || ""));
-  const adminServiceRequests =
+  const customersRequests =
     role === "admin" &&
-    JSON.parse(await getCustomerServiceRequest(session?.user._id || ""));
+    JSON.parse(await getAllServiceRequestsByRole("customer"));
+  const providersRequests =
+    role === "admin" &&
+    JSON.parse(await getAllServiceRequestsByRole("service_provider"));
 
   return (
     <div className=" ">
@@ -77,9 +83,9 @@ export default async function SericeRequestPage() {
                 <TabsContent value="customers">
                   <Card>
                     <CardHeader>
-                      <AdminDataTable
-                        columns={columns}
-                        data={serviceRequests}
+                      <AdminCustomerDatable
+                        columns={admineServiceRequestColumns}
+                        data={customersRequests}
                       />
                     </CardHeader>
                   </Card>
@@ -87,9 +93,9 @@ export default async function SericeRequestPage() {
                 <TabsContent value="providers">
                   <Card>
                     <CardHeader>
-                      <AdminDataTable
-                        columns={columns}
-                        data={serviceRequests}
+                      <AdminProviderDatable
+                        columns={adminProviderColumns}
+                        data={providersRequests}
                       />
                     </CardHeader>
                   </Card>
