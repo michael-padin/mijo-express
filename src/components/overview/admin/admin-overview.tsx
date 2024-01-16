@@ -120,7 +120,7 @@ const AdminOverview = async () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                ₱{pendingRequests.thisMonth}
+                {pendingRequests.thisMonth}
               </div>
               <p className="text-xs text-muted-foreground">
                 {`${pendingRequests.lastMonth} from last month`}
