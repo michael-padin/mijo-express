@@ -24,14 +24,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DataTablePagination } from "./data-table-pagination";
-import { AdminDataTableToolbar } from "./data-toolbar";
+import { AdminCustomerDataTableToolbar } from "./admin-customer-data-toolbar";
+import { AdminProvderDataTableToolbar } from "./admin-provider-data-toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function AdminDataTable<TData, TValue>({
+export function AdminProviderDatable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -64,7 +65,7 @@ export function AdminDataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <AdminDataTableToolbar table={table} />
+      <AdminProvderDataTableToolbar table={table} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

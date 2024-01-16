@@ -16,7 +16,7 @@ interface DataTableToolbarProps<TData> {
   table: Table<TData>;
 }
 
-export function AdminDataTableToolbar<TData>({
+export function AdminCustomerDataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
@@ -27,20 +27,26 @@ export function AdminDataTableToolbar<TData>({
         <div className="relative">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search provider..."
+            placeholder="Search customer..."
             value={
-              (table
-                .getColumn("serviceProviderName")
-                ?.getFilterValue() as string) ?? ""
+              (table.getColumn("customerName")?.getFilterValue() as string) ??
+              ""
             }
             onChange={(event) =>
               table
-                .getColumn("serviceProviderName")
+                .getColumn("customerName")
                 ?.setFilterValue(event.target.value)
             }
             className="w-[200px] bg-muted pl-8 lg:w-[350px]"
           />
         </div>
+        {table.getColumn("status") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("status")}
+            title="Status"
+            options={[]}
+          />
+        )}
 
         {isFiltered && (
           <Button

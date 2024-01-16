@@ -7,14 +7,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DropdownMenuArrow } from "@radix-ui/react-dropdown-menu";
 import { DotsHorizontalIcon, StarFilledIcon } from "@radix-ui/react-icons";
-import { Ban, Info, Loader2, Pencil, Star, Trash } from "lucide-react";
+import { Ban, Check, Info, Loader2, Pencil, Star, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import {
-  ServiceRequestActionProps,
-  ServiceReview,
-  ServiceReviewSchema,
-} from "../types";
+
 import {
   Dialog,
   DialogContent,
@@ -46,14 +42,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  ServiceRequestActionProps,
+  ServiceReview,
+  ServiceReviewSchema,
+} from "../../types";
 
 const defaultValues = {
   customerComment: "",
   customerRating: 5,
 };
 
-export const ServiceRequestAction = ({
-  id,
+export const AdminProviderRequestAction = ({
   requestInfo,
 }: ServiceRequestActionProps) => {
   const session = useSession();
@@ -99,9 +99,26 @@ export const ServiceRequestAction = ({
       toast.error("Something went wrong");
     }
   };
+  const handleUpdateStatus = async (status: string) => {
+    const response = await fetch(
+      `/api/service-request/update?requestId=${requestInfo.requestId}&status=${status}`
+    );
 
-  const handleDetailsClick = () =>
-    router.push(`service-request/details/${requestInfo.requestId}`);
+    if (response.status === 200) {
+      if (status === "accepted") {
+        toast.success("Service accepted successfully");
+      } else if (status === "rejected") {
+        toast.success("Service rejected successfully");
+      }
+      router.refresh();
+    } else {
+      toast.error("Something went wrong");
+    }
+  };
+
+  // handleUpdateStatus("accepted");
+  //   const handleDetailsClick = () =>
+  //     router.push(`service-request/details/${requestInfo.requestId}`);
 
   const onSubmit = async (data: ServiceReview) => {
     const respones = await fetch(`/api/service-request/review`, {
@@ -123,14 +140,20 @@ export const ServiceRequestAction = ({
   return (
     <Dialog>
       <DropdownMenu>
-        <DropdownMenuTrigger>
-          <DotsHorizontalIcon className="h-5 w-5" />
-        </DropdownMenuTrigger>
+        {!["rejected", "completed", "cancelled", "delivered"].includes(
+          status
+        ) && (
+          <DropdownMenuTrigger>
+            <DotsHorizontalIcon className="h-5 w-5" />
+          </DropdownMenuTrigger>
+        )}
         <DropdownMenuContent>
-          <DropdownMenuItem onClick={handleDetailsClick}>
-            <Info className="mr-2 h-4 w-4" />
-            Details
-          </DropdownMenuItem>
+          {status === "accepted" && (
+            <DropdownMenuItem onClick={() => handleUpdateStatus("delivered")}>
+              <Info className="mr-2 h-4 w-4" />
+              Deliver
+            </DropdownMenuItem>
+          )}
           <DialogTrigger asChild>
             {!isCustomerReviewed && status === "completed" && (
               <DropdownMenuItem>
@@ -139,10 +162,19 @@ export const ServiceRequestAction = ({
               </DropdownMenuItem>
             )}
           </DialogTrigger>
-          {["pending", "accepted"].includes(status) && (
-            <DropdownMenuItem onClick={handleCancel} className="text-red-600">
+          {["pending"].includes(status) && (
+            <DropdownMenuItem onClick={() => handleUpdateStatus("accepted")}>
+              <Check className="mr-2 h-4 w-4" />
+              Accept
+            </DropdownMenuItem>
+          )}
+          {["pending"].includes(status) && (
+            <DropdownMenuItem
+              onClick={() => handleUpdateStatus("rejected")}
+              className="text-red-600"
+            >
               <Ban className="mr-2 h-4 w-4" />
-              Cancel
+              Reject
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>
