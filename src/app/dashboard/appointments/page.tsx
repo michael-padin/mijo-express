@@ -3,6 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import {
+  getCustomerAppointments,
   getCustomerServiceRequest,
   getProviderAppointments,
   getProviderServiceRequest,
@@ -11,15 +12,17 @@ import { getServerSession } from "next-auth";
 import { authConfig } from "@/lib/auth.config";
 import { providerColumns } from "./components/provider/provider-columns";
 import { DataTable } from "./components/provider/data-table";
+import { DataTable as CustomerDatable } from "./components/customer/data-table";
 import { Calendar } from "lucide-react";
 import { Card, CardHeader } from "@/components/ui/card";
+import { customerAppointmentColumns } from "./components/customer/customer-appoinment-columns";
 
 export default async function AppointmentsPage() {
   const session = await getServerSession(authConfig);
   const { role } = session?.user || {};
-  const serviceRequests =
+  const customerAppointments =
     role === "customer" &&
-    JSON.parse(await getCustomerServiceRequest(session?.user._id || ""));
+    JSON.parse(await getCustomerAppointments(session?.user._id || ""));
   const providerAppointments =
     role === "service_provider" &&
     JSON.parse(await getProviderAppointments(session?.user._id || ""));
@@ -55,7 +58,10 @@ export default async function AppointmentsPage() {
         <Card>
           <CardHeader>
             {role === "customer" && (
-              <DataTable columns={[]} data={serviceRequests} />
+              <CustomerDatable
+                columns={customerAppointmentColumns}
+                data={customerAppointments}
+              />
             )}
             {role === "service_provider" && (
               <DataTable
@@ -63,9 +69,9 @@ export default async function AppointmentsPage() {
                 data={providerAppointments}
               />
             )}
-            {role === "admin" && (
-              <DataTable columns={[]} data={serviceRequests} />
-            )}
+            {/* {role === "admin" && (
+              <DataTable columns={[]} data={customerAppointments} />
+            )} */}
           </CardHeader>
         </Card>
       </div>

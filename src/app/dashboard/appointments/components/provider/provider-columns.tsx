@@ -26,18 +26,31 @@ export const providerColumns: ColumnDef<any>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: "customerDescription",
+    accessorKey: "customerName",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="DESCRIPTION" />
+      <DataTableColumnHeader column={column} title="CUSTOMER" />
     ),
     cell: ({ row }) => {
-      const category = row.original.serviceOffer.serviceCategory as any;
-
+      return (
+        <Link
+          href={`/dashboard/customer/customer-info/${row.original.customerId}`}
+          className="font hover:underline"
+        >
+          {row.getValue("customerName")}
+        </Link>
+      );
+    },
+  },
+  {
+    accessorKey: "serviceTitle",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="ITEM" />
+    ),
+    cell: ({ row }) => {
       return (
         <div className="fle-wrap flex space-x-2">
-          {category && <Badge variant="default">#{category}</Badge>}
-          <span className="max-w-[200px] truncate font-medium">
-            {row.getValue("customerDescription")}
+          <span className="truncate font-medium">
+            {row.original.serviceOffer.serviceTitle}
           </span>
         </div>
       );
@@ -106,7 +119,7 @@ export const providerColumns: ColumnDef<any>[] = [
   //   },
   // },
   {
-    accessorKey: "total",
+    accessorKey: "address",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="ADDRESS " />
     ),
@@ -117,22 +130,7 @@ export const providerColumns: ColumnDef<any>[] = [
     },
     enableSorting: false,
   },
-  {
-    accessorKey: "customerName",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="CUSTOMER" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <Link
-          href={`/dashboard/customer/customer-info/${row.original.customerId}`}
-          className="font hover:underline"
-        >
-          {row.getValue("customerName")}
-        </Link>
-      );
-    },
-  },
+
   // {
   //   enableSorting: false,
   //   accessorKey: "action",

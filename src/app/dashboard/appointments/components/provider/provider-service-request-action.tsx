@@ -54,7 +54,6 @@ const defaultValues = {
 };
 
 export const ProviderServiceRequestAction = ({
-  id,
   requestInfo,
 }: ServiceRequestActionProps) => {
   const session = useSession();
