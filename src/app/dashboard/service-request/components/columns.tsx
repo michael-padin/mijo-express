@@ -36,7 +36,7 @@ export const columns: ColumnDef<any>[] = [
       return (
         <div className="flex space-x-2">
           {category && <Badge variant="outline">{category}</Badge>}
-          <span className="max-w-[500px] truncate font-medium">
+          <span className="max-w-[300px] truncate font-medium">
             {row.getValue("customerDescription")}
           </span>
         </div>
