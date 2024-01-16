@@ -104,7 +104,14 @@ const ServiceRequestSchema = new mongoose.Schema({
   customerDescription: { type: String }, // Description of the service request
   status: {
     type: String,
-    enum: ["pending", "accepted", "cancelled", "completed", "rejected"],
+    enum: [
+      "pending",
+      "accepted",
+      "cancelled",
+      "completed",
+      "rejected",
+      "delivered",
+    ],
     default: "pending",
   }, // Status of the service request
   startEndDate: {

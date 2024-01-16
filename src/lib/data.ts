@@ -24,8 +24,8 @@ const createUser = async (userData: any) => {
 const getAllUsers = async () => {
   try {
     await connectToDB();
-    const users = await User.find();
-    return users;
+    const users = await User.find().select("-password");
+    return JSON.stringify(users);
   } catch (error) {
     throw error;
   }
@@ -103,6 +103,28 @@ export const getServiceOfferByProvider = async (id: any) => {
       createdAt: -1,
     });
     return JSON.stringify(services);
+  } catch (error) {
+    throw new Error("Failed to fetch provider");
+  }
+};
+
+export const getAllServiceOffers = async () => {
+  try {
+    await connectToDB();
+
+    // find all serviceoffers then query userInfo returned by serviceOffer to get the provider info
+    const services = await ServiceOffer.find().sort({ createdAt: -1 });
+    const result = await Promise.all(
+      services.map(async (service: any) => {
+        const providerInfo = await User.findById(
+          service.serviceProviderId
+        ).select("-password");
+
+        return { ...service._doc, serviceProviderName: providerInfo.fullName };
+      })
+    );
+
+    return JSON.stringify(result);
   } catch (error) {
     throw new Error("Failed to fetch provider");
   }
@@ -252,9 +274,30 @@ const getAllServiceRequests = async () => {
 const getCustomerServiceRequest = async (id: string) => {
   try {
     await connectToDB();
-    const requests = await ServiceRequest.find({ customerId: id });
+    const requests = await ServiceRequest.find({ customerId: id }).sort({
+      createdAt: -1,
+    });
 
     //find serviceOffer by serviceOfferId in the requeests object array then add to the service offer to each object
+
+    return JSON.stringify(requests);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getAllServiceRequestsByRole = async (role: string) => {
+  try {
+    await connectToDB();
+    const users = await User.find({ role });
+    const userIds = users.map((user) => user._id);
+
+    const requests = await ServiceRequest.find({
+      $or: [
+        { customerId: { $in: userIds } },
+        { serviceProviderId: { $in: userIds } },
+      ],
+    }).sort({ createdAt: -1 });
 
     return JSON.stringify(requests);
   } catch (error) {
@@ -265,7 +308,9 @@ const getCustomerServiceRequest = async (id: string) => {
 const getProviderServiceRequest = async (id: string) => {
   try {
     await connectToDB();
-    const requests = await ServiceRequest.find({ serviceProviderId: id });
+    const requests = await ServiceRequest.find({ serviceProviderId: id }).sort({
+      createdAt: -1,
+    });
 
     //find serviceOffer by serviceOfferId in the requeests object array then add to the service offer to each object
 
@@ -550,20 +595,18 @@ const getProviderAppointments = async (providerId: string) => {
     const requests = await ServiceRequest.find({
       serviceProviderId: providerId,
       status: "accepted",
-    });
-
-    //find serviceOffer by serviceOfferId in the requeests object array then add to the service offer to each object
+    }).sort({ createdAt: -1 });
 
     return JSON.stringify(requests);
   } catch (error) {
     throw error;
   }
 };
-const getCustomerAppointments = async (providerId: string) => {
+const getCustomerAppointments = async (id: string) => {
   try {
     await connectToDB();
     const requests = await ServiceRequest.find({
-      serviceProviderId: providerId,
+      customerId: id,
       status: "accepted",
     });
 
