@@ -20,7 +20,7 @@ export default async function ServicesPage() {
 
   return (
     <div>
-      <div className=" space-y-6 p-10 pb-16 ">
+      <div className=" space-y-6 p-5 pb-16 ">
         <div className="flex items-center justify-between space-y-0.5">
           <div>
             <h2 className="flex items-center gap-2 text-2xl font-bold tracking-tight">
