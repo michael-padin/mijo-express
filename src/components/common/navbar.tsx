@@ -55,11 +55,15 @@ const Navbar = () => {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Link href="admin/settings" className="w-full">
+                <Link href="/dashboard/settings/account" className="w-full">
                   Profile
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href="/dashboard/settings/account" className="w-full">
+                  Settings
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={async () => await signOut()}>
                 Logout
               </DropdownMenuItem>

@@ -97,7 +97,7 @@ const AdminOverview = async () => {
   );
 
   return (
-    <div className=" space-y-6 p-10 pb-16 ">
+    <div className=" space-y-6 p-5 pb-16 ">
       <div className="space-y-0.5">
         <h2 className="flex items-center gap-2 text-2xl font-bold tracking-tight">
           <Home />
