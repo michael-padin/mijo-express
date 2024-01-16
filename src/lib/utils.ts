@@ -61,3 +61,30 @@ export const unslugAndCapitalize = (word: string) => {
 
   return result;
 };
+
+// generate function to slug a string
+export const slugify = (str: string) => {
+  return str
+    .toLowerCase()
+    .replace(/[^\w ]+/g, "")
+    .replace(/ +/g, "-");
+};
+
+// Calculate percentage change for each metric
+export const calculatePercentageChange = (
+  oldValue: number,
+  newValue: number
+) => {
+  const change = ((newValue - oldValue) / Math.abs(oldValue)) * 100;
+  return change.toFixed(1);
+};
+
+export const formatCurrency = (
+  amount: number,
+  currencyCode = "PHP",
+  locale = "en-PH"
+) =>
+  amount.toLocaleString(locale, {
+    style: "currency",
+    currency: currencyCode,
+  });
