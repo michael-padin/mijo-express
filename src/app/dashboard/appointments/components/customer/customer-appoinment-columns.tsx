@@ -1,11 +1,15 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "./data-table-column-header";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { MeDatePickerWithRange } from "@/components/me/me-date-range-picker";
 import Link from "next/link";
 
-export const providerColumns: ColumnDef<any>[] = [
+export const customerAppointmentColumns: ColumnDef<any>[] = [
   {
     accessorKey: "requestId",
     header: ({ column }) => (
@@ -13,7 +17,7 @@ export const providerColumns: ColumnDef<any>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <span className="max-w-[500px] truncate font-medium">
+        <span className="max-w-[500px] truncate ">
           {row.getValue("requestId")}
         </span>
       );
@@ -21,18 +25,24 @@ export const providerColumns: ColumnDef<any>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: "customerDescription",
+    accessorKey: "serviceProviderName",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="DESCRIPTION" />
+      <DataTableColumnHeader column={column} title="PROVIDER" />
     ),
     cell: ({ row }) => {
-      const category = row.original.serviceOffer.serviceCategory as any;
-
+      return <span>{row.getValue("serviceProviderName")}</span>;
+    },
+  },
+  {
+    accessorKey: "serviceTitle",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="ITEM" />
+    ),
+    cell: ({ row }) => {
       return (
-        <div className="flex space-x-2">
-          {category && <Badge variant="outline">{category}</Badge>}
-          <span className="max-w-[200px] truncate font-medium">
-            {row.getValue("customerDescription")}
+        <div className="fle-wrap flex space-x-2">
+          <span className="truncate ">
+            {row.original.serviceOffer.serviceTitle}
           </span>
         </div>
       );
@@ -101,34 +111,18 @@ export const providerColumns: ColumnDef<any>[] = [
   //   },
   // },
   {
-    accessorKey: "address",
+    accessorKey: "serviceProviderContactNumber",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="ADDRESS " />
-    ),
-    cell: ({ row }) => {
-      const address: any = row.original.customerAddress;
-
-      return <span className="">{address}</span>;
-    },
-    enableSorting: false,
-  },
-  {
-    enableSorting: false,
-    accessorKey: "providerName",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Provider" />
+      <DataTableColumnHeader column={column} title="CONTACT" />
     ),
     cell: ({ row }) => {
       return (
-        <Link
-          href={`/dashboard/customer/customer-info/${row.original.serviceProviderId}`}
-          className="font-bold hover:underline"
-        >
-          {row.getValue("customerName")}
-        </Link>
+        <span className="">{row.getValue("serviceProviderContactNumber")}</span>
       );
     },
+    enableSorting: false,
   },
+
   // {
   //   enableSorting: false,
   //   accessorKey: "action",
