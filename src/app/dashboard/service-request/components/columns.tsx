@@ -18,7 +18,7 @@ export const columns: ColumnDef<any>[] = [
   //   ),
   //   cell: ({ row }) => {
   //     return (
-  //       <span className="max-w-[500px] truncate font-medium">
+  //       <span className="max-w-[500px] truncate ">
   //         {row.getValue("_id")}
   //       </span>
   //     );
@@ -26,18 +26,45 @@ export const columns: ColumnDef<any>[] = [
   //   enableSorting: false,
   // },
   {
+    enableSorting: false,
+    accessorKey: "serviceProviderName",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="PROVIDER" />
+    ),
+    cell: ({ row }) => {
+      return <span>{row.getValue("serviceProviderName")}</span>;
+    },
+  },
+  {
     accessorKey: "customerDescription",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="DESCRIPTION" />
+      <DataTableColumnHeader column={column} title="NOTES" />
     ),
     cell: ({ row }) => {
       const category = row.original.serviceOffer.serviceCategory as any;
 
       return (
-        <div className="flex space-x-2">
-          {category && <Badge variant="outline">{category}</Badge>}
-          <span className="max-w-[300px] truncate font-medium">
+        <div className="flex flex-col gap-2 space-x-2">
+          <span className="max-w-[300px] ">
             {row.getValue("customerDescription")}
+          </span>
+        </div>
+      );
+    },
+    enableHiding: false,
+  },
+  {
+    accessorKey: "serviceOffer",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="ITEM" />
+    ),
+    cell: ({ row }) => {
+      const category = row.original.serviceOffer.serviceCategory as any;
+
+      return (
+        <div className="flex flex-col gap-2 space-x-2">
+          <span className="max-w-[300px] ">
+            {row.original.serviceOffer.serviceTitle}
           </span>
         </div>
       );
@@ -71,32 +98,34 @@ export const columns: ColumnDef<any>[] = [
       if (status === "pending") {
         return (
           <Badge
-            className={cn("bg-yellow-100 text-yellow-800")}
-            variant="outline"
+            className={cn("bg-yellow-100 text-yellow-800 hover:bg-yellow-100")}
           >
             {status}
           </Badge>
         );
       } else if (status === "accepted") {
         return (
-          <Badge className="bg-green-100 text-green-800" variant="outline">
+          <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
             {status}
           </Badge>
         );
       } else if (status === "completed") {
         return (
-          <Badge className="bg-indigo-100 text-indigo-800" variant="outline">
+          <Badge className="bg-indigo-100 text-indigo-800 hover:bg-indigo-100">
             {status}
           </Badge>
         );
       } else if (status === "cancelled") {
         return (
-          <Badge className="bg-purple-100 text-purple-800" variant="outline">
+          <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-100">
             {status}
           </Badge>
         );
       }
       return <Badge>{status}</Badge>;
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
     },
   },
   {
@@ -111,31 +140,13 @@ export const columns: ColumnDef<any>[] = [
     },
     enableSorting: false,
   },
-  {
-    enableSorting: false,
-    accessorKey: "serviceProviderName",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="PROVIDER" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <Link
-          href={`/dashboard/overview/provider-info/${row.original.serviceProviderId}`}
-          className="font-bold hover:underline"
-        >
-          {row.getValue("serviceProviderName")}
-        </Link>
-      );
-    },
-  },
+
   {
     enableSorting: false,
     accessorKey: "action",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="ACTION" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="" />,
     cell: ({ row }) => {
-      return <ServiceRequestAction id="eheheh" requestInfo={row.original} />;
+      return <ServiceRequestAction requestInfo={row.original} />;
     },
   },
 ];

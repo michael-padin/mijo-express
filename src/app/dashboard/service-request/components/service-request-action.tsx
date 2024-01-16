@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DropdownMenuArrow } from "@radix-ui/react-dropdown-menu";
 import { DotsHorizontalIcon, StarFilledIcon } from "@radix-ui/react-icons";
-import { Ban, Info, Loader2, Pencil, Star, Trash } from "lucide-react";
+import { Ban, Check, Info, Loader2, Pencil, Star, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {
@@ -53,7 +53,6 @@ const defaultValues = {
 };
 
 export const ServiceRequestAction = ({
-  id,
   requestInfo,
 }: ServiceRequestActionProps) => {
   const session = useSession();
@@ -99,9 +98,24 @@ export const ServiceRequestAction = ({
       toast.error("Something went wrong");
     }
   };
+  const handleUpdateStatus = async (status: string) => {
+    const response = await fetch(
+      `/api/service-request/update?requestId=${requestInfo.requestId}&status=${status}`
+    );
 
-  const handleDetailsClick = () =>
-    router.push(`service-request/details/${requestInfo.requestId}`);
+    if (response.status === 200) {
+      if (status === "accepted") {
+        toast.success("Service accepted successfully");
+      } else if (status === "rejected") {
+        toast.success("Service rejected successfully");
+      } else if (status === "completed") {
+        toast.success("Service completed successfully");
+      }
+      router.refresh();
+    } else {
+      toast.error("Something went wrong");
+    }
+  };
 
   const onSubmit = async (data: ServiceReview) => {
     const respones = await fetch(`/api/service-request/review`, {
@@ -123,18 +137,28 @@ export const ServiceRequestAction = ({
   return (
     <Dialog>
       <DropdownMenu>
-        <DropdownMenuTrigger>
-          <DotsHorizontalIcon className="h-5 w-5" />
-        </DropdownMenuTrigger>
+        {!["rejected", "cancelled"].includes(status) && !isCustomerReviewed && (
+          <DropdownMenuTrigger>
+            <DotsHorizontalIcon className="h-5 w-5" />
+          </DropdownMenuTrigger>
+        )}
         <DropdownMenuContent>
-          <DropdownMenuItem onClick={handleDetailsClick}>
-            <Info className="mr-2 h-4 w-4" />
-            Details
-          </DropdownMenuItem>
+          {status === "delivered" && (
+            <>
+              <DropdownMenuItem onClick={() => handleUpdateStatus("completed")}>
+                <Check className="mr-2 h-4 w-4" color="green" />
+                Accept
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleUpdateStatus("reject")}>
+                <Ban className="mr-2 h-4 w-4 " color="red" />
+                Reject
+              </DropdownMenuItem>
+            </>
+          )}
           <DialogTrigger asChild>
             {!isCustomerReviewed && status === "completed" && (
               <DropdownMenuItem>
-                <Star className="mr-2 h-4 w-4" />
+                <Star className="mr-2 h-4 w-4" color="gold" />
                 Review
               </DropdownMenuItem>
             )}
