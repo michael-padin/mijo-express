@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { DataTableViewOptions } from "./data-table-view-options";
 import { Search } from "lucide-react";
+import { statuses } from "../../data";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -40,6 +41,13 @@ export function ProviderDataTableToolbar<TData>({
             className=" w-[150px] bg-muted pl-8 lg:w-[250px]"
           />
         </div>
+        {table.getColumn("status") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("status")}
+            title="Status"
+            options={statuses}
+          />
+        )}
 
         {isFiltered && (
           <Button

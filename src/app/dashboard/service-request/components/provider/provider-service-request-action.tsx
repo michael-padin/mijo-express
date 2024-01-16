@@ -54,7 +54,6 @@ const defaultValues = {
 };
 
 export const ProviderServiceRequestAction = ({
-  id,
   requestInfo,
 }: ServiceRequestActionProps) => {
   const session = useSession();
@@ -141,16 +140,20 @@ export const ProviderServiceRequestAction = ({
   return (
     <Dialog>
       <DropdownMenu>
-        {!["rejected", "completed", "accepted"].includes(status) && (
+        {!["rejected", "completed", "cancelled", "delivered"].includes(
+          status
+        ) && (
           <DropdownMenuTrigger>
             <DotsHorizontalIcon className="h-5 w-5" />
           </DropdownMenuTrigger>
         )}
         <DropdownMenuContent>
-          {/* <DropdownMenuItem onClick={handleDetailsClick}>
-            <Info className="mr-2 h-4 w-4" />
-            Details
-          </DropdownMenuItem> */}
+          {status === "accepted" && (
+            <DropdownMenuItem onClick={() => handleUpdateStatus("delivered")}>
+              <Info className="mr-2 h-4 w-4" />
+              Deliver
+            </DropdownMenuItem>
+          )}
           <DialogTrigger asChild>
             {!isCustomerReviewed && status === "completed" && (
               <DropdownMenuItem>

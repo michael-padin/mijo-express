@@ -26,6 +26,23 @@ export const providerColumns: ColumnDef<any>[] = [
   //   enableSorting: false,
   // },
   {
+    enableSorting: false,
+    accessorKey: "customerName",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Customer" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <Link
+          href={`/dashboard/customer/customer-info/${row.original.customerId}`}
+          className="font-bold hover:underline"
+        >
+          {row.getValue("customerName")}
+        </Link>
+      );
+    },
+  },
+  {
     accessorKey: "customerDescription",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="DESCRIPTION" />
@@ -34,10 +51,32 @@ export const providerColumns: ColumnDef<any>[] = [
       const category = row.original.serviceOffer.serviceCategory as any;
 
       return (
-        <div className="flex flex-wrap space-x-2">
-          {category && <Badge variant="default">#{category}</Badge>}
-          <span className="max-w-[100px] truncate font-medium ">
+        <div className="flex flex-col gap-2 space-x-2">
+          {category && (
+            <div className="flex">
+              <Badge variant={"outline"}>#{category}</Badge>
+            </div>
+          )}
+          <span className="max-w-[200px] font-medium">
             {row.getValue("customerDescription")}
+          </span>
+        </div>
+      );
+    },
+    enableHiding: false,
+  },
+  {
+    accessorKey: "serviceOffer",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="ITEM" />
+    ),
+    cell: ({ row }) => {
+      const category = row.original.serviceOffer.serviceCategory as any;
+
+      return (
+        <div className="flex flex-col gap-2 space-x-2">
+          <span className="max-w-[300px] font-medium">
+            {row.original.serviceOffer.serviceTitle}
           </span>
         </div>
       );
@@ -105,6 +144,9 @@ export const providerColumns: ColumnDef<any>[] = [
       }
       return <Badge>{status}</Badge>;
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
   },
   {
     accessorKey: "total",
@@ -118,33 +160,13 @@ export const providerColumns: ColumnDef<any>[] = [
     },
     enableSorting: false,
   },
-  {
-    enableSorting: false,
-    accessorKey: "customerName",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Customer" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <Link
-          href={`/dashboard/customer/customer-info/${row.original.customerId}`}
-          className="font-bold hover:underline"
-        >
-          {row.getValue("customerName")}
-        </Link>
-      );
-    },
-  },
+
   {
     enableSorting: false,
     accessorKey: "action",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="ACTION" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="" />,
     cell: ({ row }) => {
-      return (
-        <ProviderServiceRequestAction id="eheheh" requestInfo={row.original} />
-      );
+      return <ProviderServiceRequestAction requestInfo={row.original} />;
     },
   },
 ];
