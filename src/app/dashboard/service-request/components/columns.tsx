@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ServiceRequestAction } from "./service-request-action";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { MeDatePickerWithRange } from "@/components/me/me-date-range-picker";
 import Link from "next/link";
@@ -107,7 +107,7 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) => {
       const price: any = row.original.serviceOffer.servicePrice;
 
-      return <span className="">₱ {price}</span>;
+      return <span className="">{formatCurrency(price)}</span>;
     },
     enableSorting: false,
   },
@@ -115,7 +115,7 @@ export const columns: ColumnDef<any>[] = [
     enableSorting: false,
     accessorKey: "serviceProviderName",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Provider" />
+      <DataTableColumnHeader column={column} title="PROVIDER" />
     ),
     cell: ({ row }) => {
       return (

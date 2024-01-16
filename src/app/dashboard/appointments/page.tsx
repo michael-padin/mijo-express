@@ -12,6 +12,7 @@ import { authConfig } from "@/lib/auth.config";
 import { providerColumns } from "./components/provider/provider-columns";
 import { DataTable } from "./components/provider/data-table";
 import { Calendar } from "lucide-react";
+import { Card, CardHeader } from "@/components/ui/card";
 
 export default async function AppointmentsPage() {
   const session = await getServerSession(authConfig);
@@ -51,15 +52,22 @@ export default async function AppointmentsPage() {
           </div>
         </div>
         <Separator className="my-6" />
-        {/* {role === "customer" && (
-          <DataTable columns={columns} data={serviceRequests} />
-        )} */}
-        {role === "service_provider" && (
-          <DataTable columns={providerColumns} data={providerAppointments} />
-        )}
-        {/* {role === "admin" && (
-          <DataTable columns={columns} data={serviceRequests} />
-        )} */}
+        <Card>
+          <CardHeader>
+            {role === "customer" && (
+              <DataTable columns={[]} data={serviceRequests} />
+            )}
+            {role === "service_provider" && (
+              <DataTable
+                columns={providerColumns}
+                data={providerAppointments}
+              />
+            )}
+            {role === "admin" && (
+              <DataTable columns={[]} data={serviceRequests} />
+            )}
+          </CardHeader>
+        </Card>
       </div>
     </div>
   );

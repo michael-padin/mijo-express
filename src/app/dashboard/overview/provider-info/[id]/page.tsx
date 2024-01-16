@@ -27,8 +27,15 @@ export default async function ProviderInfoPage({
 
   return (
     <div className=" relative space-y-6 pb-16 lg:p-8">
-      <div className="flex lg:gap-5 xl:gap-20">
-        <ServiceProviderInfo providerInfo={providerInfo} reviews={reviews} />
+      <div className="flex lg:gap-5 ">
+        <Card className="flex-1">
+          <CardHeader>
+            <ServiceProviderInfo
+              providerInfo={providerInfo}
+              reviews={reviews}
+            />
+          </CardHeader>
+        </Card>
         <Card className="sticky top-8 h-full lg:w-1/2 xl:w-[450px]">
           <CardHeader>
             <CardTitle>Services Offered</CardTitle>

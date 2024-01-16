@@ -34,9 +34,9 @@ export const providerColumns: ColumnDef<any>[] = [
       const category = row.original.serviceOffer.serviceCategory as any;
 
       return (
-        <div className="flex space-x-2">
-          {category && <Badge variant="outline">{category}</Badge>}
-          <span className="max-w-[200px] truncate font-medium">
+        <div className="flex flex-wrap space-x-2">
+          {category && <Badge variant="default">#{category}</Badge>}
+          <span className="max-w-[100px] truncate font-medium ">
             {row.getValue("customerDescription")}
           </span>
         </div>
@@ -71,33 +71,34 @@ export const providerColumns: ColumnDef<any>[] = [
       if (status === "pending") {
         return (
           <Badge
-            className={cn("bg-yellow-100 text-yellow-800")}
-            variant="outline"
+            className={cn(
+              "bg-yellow-100 text-yellow-800  hover:!bg-yellow-100"
+            )}
           >
             {status}
           </Badge>
         );
       } else if (status === "accepted") {
         return (
-          <Badge className="bg-green-100 text-green-800" variant="outline">
+          <Badge className="bg-green-100 text-green-800 hover:!bg-green-100">
             {status}
           </Badge>
         );
       } else if (status === "completed") {
         return (
-          <Badge className="bg-indigo-100 text-indigo-800" variant="outline">
+          <Badge className="bg-indigo-100 text-indigo-800  hover:!bg-indigo-100">
             {status}
           </Badge>
         );
       } else if (status === "cancelled") {
         return (
-          <Badge className="bg-purple-100 text-purple-800" variant="outline">
+          <Badge className="bg-purple-100 text-purple-800  hover:!bg-purple-100">
             {status}
           </Badge>
         );
       } else if (status === "rejected") {
         return (
-          <Badge className="bg-red-100 text-red-800" variant="outline">
+          <Badge className="bg-red-100 text-red-800  hover:!bg-red-100">
             {status}
           </Badge>
         );

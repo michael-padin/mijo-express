@@ -1,5 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { AccountForm } from "./account-form";
+import { Suspense } from "react";
 
 export default function SettingsAccountPage() {
   return (
@@ -12,7 +13,9 @@ export default function SettingsAccountPage() {
         </p>
       </div>
       <Separator />
-      <AccountForm />
+      <Suspense fallback={"loading"}>
+        <AccountForm />
+      </Suspense>
     </div>
   );
 }

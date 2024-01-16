@@ -26,10 +26,8 @@ export function TopPerformingProvider() {
     <Card>
       <CardHeader>
         <CardTitle>Top Performing Provider</CardTitle>
-        <CardDescription>
-          <p className="text-sm text-muted-foreground">
-            The top performing provider of the month
-          </p>
+        <CardDescription className="text-sm text-muted-foreground">
+          The top performing provider of the month
         </CardDescription>
       </CardHeader>
       <CardContent>

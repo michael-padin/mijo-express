@@ -2,7 +2,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { DataTable } from "./components/data-table";
+import { CustomerDataTable } from "./components/data-table";
 import { columns } from "./components/columns";
 import { transactionData } from "./components/data";
 import {
@@ -13,6 +13,11 @@ import { getServerSession } from "next-auth";
 import { authConfig } from "@/lib/auth.config";
 import { providerColumns } from "./components/provider/provider-columns";
 import { Inbox } from "lucide-react";
+import { Card, CardHeader } from "@/components/ui/card";
+import { AdminDataTable } from "./components/admin/data-table";
+import { ProviderDataTable } from "./components/provider/data-table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default async function SericeRequestPage() {
   const session = await getServerSession(authConfig);
@@ -52,15 +57,47 @@ export default async function SericeRequestPage() {
           </div>
         </div>
         <Separator className="my-6" />
-        {role === "customer" && (
-          <DataTable columns={columns} data={serviceRequests} />
-        )}
-        {role === "service_provider" && (
-          <DataTable columns={providerColumns} data={providerServiceRequests} />
-        )}
-        {role === "admin" && (
-          <DataTable columns={columns} data={serviceRequests} />
-        )}
+        <Card>
+          <CardHeader>
+            {role === "customer" && (
+              <CustomerDataTable columns={columns} data={serviceRequests} />
+            )}
+            {role === "service_provider" && (
+              <ProviderDataTable
+                columns={providerColumns}
+                data={providerServiceRequests}
+              />
+            )}
+            {role === "admin" && (
+              <Tabs defaultValue="customers" className="space-y-4">
+                <TabsList className="grid grid-cols-2 lg:w-[400px] ">
+                  <TabsTrigger value="customers">Customers</TabsTrigger>
+                  <TabsTrigger value="providers">Providers</TabsTrigger>
+                </TabsList>
+                <TabsContent value="customers">
+                  <Card>
+                    <CardHeader>
+                      <AdminDataTable
+                        columns={columns}
+                        data={serviceRequests}
+                      />
+                    </CardHeader>
+                  </Card>
+                </TabsContent>
+                <TabsContent value="providers">
+                  <Card>
+                    <CardHeader>
+                      <AdminDataTable
+                        columns={columns}
+                        data={serviceRequests}
+                      />
+                    </CardHeader>
+                  </Card>
+                </TabsContent>
+              </Tabs>
+            )}
+          </CardHeader>
+        </Card>
       </div>
     </div>
   );

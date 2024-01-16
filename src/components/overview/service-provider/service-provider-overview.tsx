@@ -8,7 +8,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Overview } from "./overview";
 import { RecentSales } from "./recent-sales";
-import { calculatePercentageChange, cn } from "@/lib/utils";
+import { calculatePercentageChange, cn, formatCurrency } from "@/lib/utils";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/lib/auth.config";
 import {
@@ -98,7 +98,7 @@ const ServiceProviderOverview = async () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                ₱{totalRevenue.thisMonth}
+                {formatCurrency(totalRevenue.thisMonth)}
               </div>
               <p className="text-xs text-muted-foreground">
                 {totalRevenue.lastMonth > 0

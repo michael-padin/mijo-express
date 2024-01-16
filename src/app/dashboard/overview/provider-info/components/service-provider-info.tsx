@@ -72,7 +72,7 @@ const ProviderCard = ({ providerInfo, reviews }: ProviderCardProps) => {
   return (
     <div className="flex-1">
       <div className="">
-        <div className="mt-4 flex items-center gap-2">
+        <div className="flex items-center gap-2">
           <Avatar className="h-20 w-20">
             <AvatarImage src={profileImg} alt="@shadcn" />
             <AvatarFallback>

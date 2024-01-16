@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { serviceColumns } from "./components/service-columns";
 import { Button } from "@/components/ui/button";
 import NewServiceForm from "./components/new-service-form";
+import { Card, CardHeader } from "@/components/ui/card";
 
 export default async function ServicesPage() {
   const session = await getServerSession(authConfig);
@@ -33,7 +34,11 @@ export default async function ServicesPage() {
           </div>
         </div>
         <Separator className="my-6" />
-        <DataTable columns={serviceColumns} data={services} />
+        <Card>
+          <CardHeader>
+            <DataTable columns={serviceColumns} data={services} />
+          </CardHeader>
+        </Card>
       </div>
     </div>
   );

@@ -34,8 +34,8 @@ export const providerColumns: ColumnDef<any>[] = [
       const category = row.original.serviceOffer.serviceCategory as any;
 
       return (
-        <div className="flex space-x-2">
-          {category && <Badge variant="outline">{category}</Badge>}
+        <div className="fle-wrap flex space-x-2">
+          {category && <Badge variant="default">#{category}</Badge>}
           <span className="max-w-[200px] truncate font-medium">
             {row.getValue("customerDescription")}
           </span>
@@ -118,16 +118,15 @@ export const providerColumns: ColumnDef<any>[] = [
     enableSorting: false,
   },
   {
-    enableSorting: false,
     accessorKey: "customerName",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Customer" />
+      <DataTableColumnHeader column={column} title="CUSTOMER" />
     ),
     cell: ({ row }) => {
       return (
         <Link
           href={`/dashboard/customer/customer-info/${row.original.customerId}`}
-          className="font-bold hover:underline"
+          className="font hover:underline"
         >
           {row.getValue("customerName")}
         </Link>

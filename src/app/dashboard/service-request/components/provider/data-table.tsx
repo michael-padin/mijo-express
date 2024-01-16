@@ -24,14 +24,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DataTablePagination } from "./data-table-pagination";
-import { DataTableToolbar } from "./data-toolbar";
+import { ProviderDataTableToolbar } from "./data-toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function ProviderDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -64,7 +64,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <ProviderDataTableToolbar table={table} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

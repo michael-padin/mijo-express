@@ -34,7 +34,7 @@ export const serviceColumns: ColumnDef<any>[] = [
       return (
         <div className="flex space-x-2">
           {category && <Badge variant="outline">{category}</Badge>}
-          <span className="max-w-[500px] truncate font-medium">
+          <span className="max-w-[400px] truncate font-medium">
             {row.getValue("serviceDescription")}
           </span>
         </div>
