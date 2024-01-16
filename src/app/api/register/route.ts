@@ -31,18 +31,18 @@ export async function POST(req: Request) {
       address,
     };
 
-    // map all providers to the database
-    const providers = await Promise.all(
-      serviceProviderSample.map(async (provider: any) => {
-        await createUser(provider);
-      })
-    );
+    // // map all providers to the database
+    // const providers = await Promise.all(
+    //   serviceProviderSample.map(async (provider: any) => {
+    //     await createUser(provider);
+    //   })
+    // );
 
-    const serviceOffers = await Promise.all(
-      serviceOfferTestData.map(async (provider: any) => {
-        await createServiceOffer(provider);
-      })
-    );
+    // const serviceOffers = await Promise.all(
+    //   serviceOfferTestData.map(async (provider: any) => {
+    //     await createServiceOffer(provider);
+    //   })
+    // );
 
     const createdUser = await createUser(user);
 
