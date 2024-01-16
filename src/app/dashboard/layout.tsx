@@ -12,7 +12,7 @@ export default function RootLayout({
   return (
     <div className="flex w-full overflow-hidden">
       <div
-        className={`fixed bottom-0 left-0 top-0 z-50 hidden w-72   flex-col border  bg-background transition-transform  duration-300 md:translate-x-0 lg:flex`}
+        className={`fixed bottom-0 left-0 top-0 z-50 hidden w-72   flex-col border-r  bg-background transition-transform  duration-300 md:translate-x-0 lg:flex`}
       >
         <div className="mx-4 flex items-center justify-between md:justify-center">
           <a href="#" className="flex h-20  items-center"></a>
@@ -30,7 +30,12 @@ export default function RootLayout({
         <Profile />
       </div>
 
-      <div className="w-full lg:ml-72 ">{children}</div>
+      <div className="w-full lg:ml-72 ">
+        <Navbar />
+        <ScrollArea className="m-auto h-[calc(100vh-72.8px)] bg-muted dark:bg-background">
+          {children}
+        </ScrollArea>
+      </div>
     </div>
   );
 }

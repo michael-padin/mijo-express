@@ -18,12 +18,14 @@ interface MeDatePickerWithRangeProps {
   className?: string;
   date?: DateRange | undefined;
   setDate?: (date: DateRange) => void;
+  disabled?: boolean;
 }
 
 export function MeDatePickerWithRange({
   className,
   date,
   setDate,
+  disabled = false,
 }: MeDatePickerWithRangeProps) {
   return (
     <div className={cn("grid gap-2", className)}>
@@ -54,6 +56,7 @@ export function MeDatePickerWithRange({
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
           <Calendar
+            disabled={disabled}
             initialFocus
             mode="range"
             defaultMonth={date?.from}

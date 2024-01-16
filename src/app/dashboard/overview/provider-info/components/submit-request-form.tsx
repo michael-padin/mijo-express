@@ -17,131 +17,175 @@ import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Separator } from "@/components/ui/separator";
 import { MeDatePickerWithRange } from "@/components/me/me-date-range-picker";
 import { MeSelect } from "@/components/me/me-select";
+import { useSession } from "next-auth/react";
+import { toast } from "sonner";
+import { useEffect } from "react";
+import { addDays } from "date-fns";
 
 const serviceRequestSchema = z.object({
-  fullName: z.string().min(2),
-  email: z.string().email(),
-  contactNumber: z.string().min(1),
-  address: z.string().min(10),
-  category: z.string(),
-  description: z.string().min(4),
-  date: z.date(),
-  urgency: z.string().min(2),
-  budget: z.string().min(2),
-  attachments: z.array(z.string().optional()).optional(),
-  startEndDate: z.object({
-    from: z
-      .date()
-      .min(new Date(), { message: "Start date must be after today" }),
-    to: z
-      .date()
-      .min(new Date(), { message: "End date must be after start date" }),
-  }),
+  serviceOfferId: z.string().min(1, { message: "Please select a service" }),
+  serviceProviderId: z.string(),
+  serviceProviderName: z.string(),
+  serviceProviderEmail: z.string(),
+  serviceProviderAddress: z.string(),
+  serviceProviderContactNumber: z.string(),
+  customerId: z.string(),
+  customerName: z.string(),
+  customerEmail: z.string(),
+  contactNumber: z.string().optional(),
+  customerAddress: z.string(),
+  customerDescription: z
+    .string()
+    .min(4, { message: "Please describe the job you want to be done." }),
+  startEndDate: z
+    .object({
+      from: z.date().min(new Date()),
+      to: z.date().min(new Date()),
+    })
+    .optional(),
 });
 
-const urgencyOptions = [
-  { label: "Low", value: "low" },
-  { label: "Medium", value: "medium" },
-  { label: "High", value: "high" },
-];
+const defaultValues = {
+  startEndDate: {
+    from: new Date(),
+    to: new Date(),
+  },
+  serviceOfferId: "",
+  customerDescription: "",
+};
 
 type ServiceRequestValues = z.infer<typeof serviceRequestSchema>;
 
 type ServiceRequestFormProps = {
   servicesOferrs: any;
+  providerInfo: any;
+  userInfo: any;
 };
 
 export default function ServiceRequestForm({
   servicesOferrs,
+  providerInfo,
+  userInfo,
 }: ServiceRequestFormProps) {
   const form = useForm<ServiceRequestValues>({
     resolver: zodResolver(serviceRequestSchema),
+
     defaultValues: {
-      fullName: "",
-      email: "",
-      contactNumber: "",
-      address: "",
-      category: "",
-      description: "",
-      date: new Date(),
-      urgency: "",
-      budget: "",
-      attachments: [],
-      startEndDate: {
-        from: undefined,
-        to: undefined,
-      },
+      serviceProviderId: providerInfo._id,
+      serviceProviderName: providerInfo.fullName,
+      serviceProviderAddress: providerInfo.address,
+      serviceProviderEmail: providerInfo.address,
+      serviceProviderContactNumber: providerInfo.contactNumber,
+      serviceOfferId: "",
+      customerName: userInfo?.fullName,
+      customerId: userInfo?._id,
+      customerEmail: userInfo?.email,
+      contactNumber: userInfo?.contactNumber || undefined,
+      customerAddress: userInfo?.address,
+      customerDescription: "",
+      startEndDate:
+        {
+          from: new Date(),
+          to: addDays(new Date(), 2),
+        } || {},
     },
   });
 
-  function onSubmit(data: ServiceRequestValues) {
-    console.log({ data });
-    console.log("hello");
-  }
+  const onSubmit = async (data: ServiceRequestValues) => {
+    const response = await fetch("/api/customer/service-request", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      toast.success("Service request sent successfully");
+      form.reset();
+      return;
+    }
+
+    toast.error("Failed to send service request");
+    form.reset(defaultValues);
+  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Select service</FormLabel>
-              <MeSelect
-                placeholder="I want you to fix my ..."
-                listOptions={[{ label: "Plumbing", value: "plumbing" }]}
-                value={field.value}
-                onChange={field.onChange}
-              />
-              <FormDescription></FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea placeholder="I want you to fix my ..." {...field} />
-              </FormControl>
-              <FormDescription>
-                Describe the job you want to be done.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="startEndDate"
-          render={({ field }) => (
-            <FormItem className="flex flex-1 flex-col">
-              <FormLabel>Prefered Start and End Date</FormLabel>
-              <FormControl>
-                <MeDatePickerWithRange
-                  date={field?.value}
-                  setDate={field.onChange}
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <fieldset disabled={form.formState.isSubmitting} className="space-y-4">
+          <Input type="hidden" {...form.register("serviceProviderId")} />
+          <Input type="hidden" {...form.register("serviceProviderName")} />
+          <Input type="hidden" {...form.register("serviceProviderAddress")} />
+          <Input type="hidden" {...form.register("serviceProviderEmail")} />
+          <Input
+            type="hidden"
+            {...form.register("serviceProviderContactNumber")}
+          />
+          <Input type="hidden" {...form.register("customerId")} />
+          <Input type="hidden" {...form.register("customerName")} />
+          <Input type="hidden" {...form.register("customerAddress")} />
+          <Input type="hidden" {...form.register("customerDescription")} />
+          <Input type="hidden" {...form.register("customerEmail")} />
+          <FormField
+            control={form.control}
+            name="serviceOfferId"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Select service</FormLabel>
+                <MeSelect
+                  placeholder="I want you to fix my ..."
+                  listOptions={servicesOferrs.map((service: any) => ({
+                    label: `₱${service.servicePrice} - ${service.serviceTitle}`,
+                    value: service.serviceOfferId,
+                    description: service.serviceDescription,
+                  }))}
+                  value={field.value}
+                  onChange={field.onChange}
+                  showTooltip
                 />
-              </FormControl>
-              <FormDescription>
-                When do you want the job to be done?
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button type="submit" className="w-full">
-          Submit Request
-        </Button>
+                <FormDescription>{"You won't charge yet"}</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="customerDescription"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="I want you to fix my ..." {...field} />
+                </FormControl>
+                <FormDescription>
+                  Describe the job you want to be done.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="startEndDate"
+            render={({ field }) => (
+              <FormItem className="flex flex-1 flex-col">
+                <FormLabel>Prefered Start and End Date</FormLabel>
+                <FormControl>
+                  <MeDatePickerWithRange
+                    date={field?.value}
+                    setDate={field.onChange}
+                  />
+                </FormControl>
+                <FormDescription>
+                  When do you want the job to be done?
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+          <Button type="submit" className="w-full">
+            Submit Request
+          </Button>
+        </fieldset>
       </form>
     </Form>
   );

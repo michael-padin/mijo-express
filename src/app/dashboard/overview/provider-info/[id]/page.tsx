@@ -1,7 +1,10 @@
-import { Separator } from "@/components/ui/separator";
 import SubmitRequestForm from "../components/submit-request-form";
 import ServiceProviderInfo from "../components/service-provider-info";
-import { getProviderInfo, getServiceOfferByProvider } from "@/lib/data";
+import {
+  getProviderInfo,
+  getReviewsByProvider,
+  getServiceOfferByProvider,
+} from "@/lib/data";
 import {
   Card,
   CardContent,
@@ -9,6 +12,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/lib/auth.config";
 
 export default async function ProviderInfoPage({
   params,
@@ -17,26 +22,35 @@ export default async function ProviderInfoPage({
 }) {
   const providerInfo = JSON.parse(await getProviderInfo(params.id));
   const serviceOffers = JSON.parse(await getServiceOfferByProvider(params.id));
-
-  console.log(providerInfo);
+  const reviews = JSON.parse(await getReviewsByProvider(params.id));
+  const userInfo: any = await getServerSession(authConfig);
 
   return (
-    <div>
-      <div className=" space-y-6 p-10 pb-16 ">
-        <div className="flex gap-20">
-          <ServiceProviderInfo providerInfo={providerInfo} />
-          <Card className="w-[450px] ">
-            <CardHeader>
-              <CardTitle>Services Offered</CardTitle>
-              <CardDescription>
-                You can request for the following services from this provider.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <SubmitRequestForm servicesOferrs={serviceOffers} />
-            </CardContent>
-          </Card>
-        </div>
+    <div className=" relative space-y-6 pb-16 lg:p-8">
+      <div className="flex lg:gap-5 ">
+        <Card className="flex-1">
+          <CardHeader>
+            <ServiceProviderInfo
+              providerInfo={providerInfo}
+              reviews={reviews}
+            />
+          </CardHeader>
+        </Card>
+        <Card className="sticky top-8 h-full lg:w-1/2 xl:w-[450px]">
+          <CardHeader>
+            <CardTitle>Services Offered</CardTitle>
+            <CardDescription>
+              You can request for the following services from this provider.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <SubmitRequestForm
+              servicesOferrs={serviceOffers}
+              providerInfo={providerInfo}
+              userInfo={userInfo?.user}
+            />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

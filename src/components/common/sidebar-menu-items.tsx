@@ -9,6 +9,7 @@ import {
   Inbox,
   LucideIcon,
   Settings,
+  Users,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -40,16 +41,18 @@ const SidebarMenuItems: React.FC = () => {
       groupName: "Working Space",
       items: [
         { name: "Overview", url: "overview", icon: Home },
-        ...(role === "customer"
-          ? [{ name: "Providers", url: "providers", icon: Briefcase }]
-          : []),
+        // ...(role === "customer"
+        //   ? [{ name: "Providers", url: "providers", icon: Briefcase }]
+        //   : []),
         { name: "Service Request", url: "service-request", icon: Inbox },
-        { name: "Appointments", url: "appointments", icon: Calendar },
-        ...(role === "service_provider"
+        ...(role === "service_provider" || role === "admin"
           ? [{ name: "Services", url: "services", icon: Briefcase }]
           : []),
+        ...(role !== "admin"
+          ? [{ name: "Appointments", url: "appointments", icon: Calendar }]
+          : []),
         ...(role === "admin"
-          ? [{ name: "Users", url: "users", icon: Briefcase }]
+          ? [{ name: "Users", url: "users", icon: Users }]
           : []),
       ],
     },
@@ -73,10 +76,9 @@ const SidebarMenuItems: React.FC = () => {
                     key={index2 + 1}
                     className={cn(
                       buttonVariants({
-                        variant:
-                          pathname === `/dashboard/${item.url}`
-                            ? "default"
-                            : "ghost",
+                        variant: pathname.includes(item.url as string)
+                          ? "default"
+                          : "ghost",
                       }),
                       "flex flex-row justify-between rounded-md    p-2 px-4 transition-colors  "
                     )}

@@ -45,7 +45,7 @@ export async function getSkill() {
   }
 }
 
-const skills = [
+export const skills = [
   {
     id: "recents",
     label: "Recents",
@@ -82,13 +82,13 @@ const RegisterForm = () => {
       address: "",
       contact: "",
       role: "customer",
-      skills: [],
       password: "",
       confirmPassword: "",
     },
   });
 
   const onSubmit = async (data: RegisterData) => {
+    console.log({ data });
     const response = await fetch("/api/register", {
       method: "POST",
       body: JSON.stringify(data),
@@ -101,13 +101,6 @@ const RegisterForm = () => {
 
     toast.success("Account created successfully");
     router.push("/login");
-  };
-
-  const [selectedRole, setSelectedRole] = useState("customer");
-
-  const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedRole(event.target.value);
-    // Additional logic based on the selected role can be added here
   };
 
   return (
@@ -177,7 +170,6 @@ const RegisterForm = () => {
                 <FormLabel>User Type</FormLabel>
                 <Select
                   onValueChange={(value) => {
-                    setSelectedRole(value);
                     field.onChange(value);
                   }}
                   defaultValue={field.value}
@@ -197,7 +189,7 @@ const RegisterForm = () => {
             )}
           />
 
-          {selectedRole === "provider" && (
+          {form.getValues("role") === "provider" && (
             <>
               <Separator />
               <FormField
@@ -228,7 +220,7 @@ const RegisterForm = () => {
                                   onCheckedChange={(checked) => {
                                     return checked
                                       ? field.onChange([
-                                          ...field.value,
+                                          ...(field.value ?? []),
                                           item.id,
                                         ])
                                       : field.onChange(
@@ -281,6 +273,7 @@ const RegisterForm = () => {
               </FormItem>
             )}
           />
+
           <Button type="submit" className="w-full">
             {form.formState.isSubmitting ? (
               <Loader2 className="animate-spin" />

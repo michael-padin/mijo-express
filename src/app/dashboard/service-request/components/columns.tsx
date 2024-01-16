@@ -3,126 +3,150 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ServiceRequestAction } from "./service-request-action";
+import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { cn, formatCurrency } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { MeDatePickerWithRange } from "@/components/me/me-date-range-picker";
+import Link from "next/link";
 
 export const columns: ColumnDef<any>[] = [
+  // {
+  //   accessorKey: "_id",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="ID" />
+  //   ),
+  //   cell: ({ row }) => {
+  //     return (
+  //       <span className="max-w-[500px] truncate ">
+  //         {row.getValue("_id")}
+  //       </span>
+  //     );
+  //   },
+  //   enableSorting: false,
+  // },
   {
-    accessorKey: "ID",
+    enableSorting: false,
+    accessorKey: "serviceProviderName",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="ID" />
+      <DataTableColumnHeader column={column} title="PROVIDER" />
     ),
     cell: ({ row }) => {
-      // return (
-      // 	<span className="max-w-[500px] truncate font-medium">
-      // 		{row.getValue("name")}
-      // 	</span>
-      // );
-      return <span>id</span>;
+      return <span>{row.getValue("serviceProviderName")}</span>;
     },
-    enableSorting: false,
   },
   {
-    accessorKey: "Category",
+    accessorKey: "customerDescription",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Category" />
+      <DataTableColumnHeader column={column} title="NOTES" />
     ),
     cell: ({ row }) => {
-      const progress = Number(row.getValue("progress"));
+      const category = row.original.serviceOffer.serviceCategory as any;
 
-      // return <Progress value={progress} className="w-[60%] h-[6px]" />;
-      return <span>category</span>;
-    },
-    enableSorting: false,
-  },
-  {
-    accessorKey: "description",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Description" />
-    ),
-    cell: ({ row }) => {
-      // const status = row.getValue("status") as keyof typeof statusClasses;
-
-      // const statusClasses = {
-      // 	Low: "inline-flex items-center m-2 px-3 py-2 bg-success-100  rounded-full text-sm text-success-700",
-      // 	Medium:
-      // 		"inline-flex items-center m-2 px-3 py-2 bg-warning-100  rounded-full text-sm text-warning-700",
-      // 	High: "inline-flex items-center m-2 px-3 py-2 bg-danger-100  rounded-full text-sm text-danger-700",
-      // };
-
-      // const statusClass = statusClasses[status];
-
-      // if (statusClass) {
-      // 	return (
-      // 		<span
-      // 			className={`text-xs font-medium me-2 p-2 rounded-full ${statusClass}`}>
-      // 			{status}
-      // 		</span>
-      // 	);
-      // } else {
-      // 	return null;
-      // }
-      return <span>description</span>;
+      return (
+        <div className="flex flex-col gap-2 space-x-2">
+          <span className="max-w-[300px] ">
+            {row.getValue("customerDescription")}
+          </span>
+        </div>
+      );
     },
     enableHiding: false,
   },
   {
-    accessorKey: "date",
+    accessorKey: "serviceOffer",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Date" />
+      <DataTableColumnHeader column={column} title="ITEM" />
     ),
     cell: ({ row }) => {
-      return <span className="flex flex-col">Date urgency - high</span>;
+      const category = row.original.serviceOffer.serviceCategory as any;
+
+      return (
+        <div className="flex flex-col gap-2 space-x-2">
+          <span className="max-w-[300px] ">
+            {row.original.serviceOffer.serviceTitle}
+          </span>
+        </div>
+      );
     },
+    enableHiding: false,
   },
+
   {
-    accessorKey: "budget",
+    accessorKey: "startEndDate",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Budget" />
+      <DataTableColumnHeader column={column} title="DUE ON" />
     ),
     cell: ({ row }) => {
-      return <span>budget</span>;
+      const due = (row.getValue("startEndDate") as { to: Date }).to;
+      return <span className="flex flex-col">{format(due, "LLL dd, y")}</span>;
     },
+    enableSorting: false,
   },
 
   {
     enableSorting: false,
     accessorKey: "status",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
+      <DataTableColumnHeader column={column} title="STATUS" />
     ),
     cell: ({ row }) => {
-      // return (
-      // 	<Avatar>
-      // 		<AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-      // 		<AvatarFallback>CN</AvatarFallback>
-      // 	</Avatar>
-      // );
+      // generate badges by status
+      // generate badges by status
+      const status = row.getValue("status") as string;
 
-      return <span>status</span>;
+      if (status === "pending") {
+        return (
+          <Badge
+            className={cn("bg-yellow-100 text-yellow-800 hover:bg-yellow-100")}
+          >
+            {status}
+          </Badge>
+        );
+      } else if (status === "accepted") {
+        return (
+          <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+            {status}
+          </Badge>
+        );
+      } else if (status === "completed") {
+        return (
+          <Badge className="bg-indigo-100 text-indigo-800 hover:bg-indigo-100">
+            {status}
+          </Badge>
+        );
+      } else if (status === "cancelled") {
+        return (
+          <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-100">
+            {status}
+          </Badge>
+        );
+      }
+      return <Badge>{status}</Badge>;
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
     },
   },
   {
-    enableSorting: false,
-    accessorKey: "provider",
+    accessorKey: "total",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Provider" />
+      <DataTableColumnHeader column={column} title="TOTAL " />
     ),
     cell: ({ row }) => {
-      return (
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-      );
+      const price: any = row.original.serviceOffer.servicePrice;
+
+      return <span className="">{formatCurrency(price)}</span>;
     },
+    enableSorting: false,
   },
+
   {
     enableSorting: false,
     accessorKey: "action",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Action" />
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title="" />,
     cell: ({ row }) => {
-      return <ServiceRequestAction id="eheheh" />;
+      return <ServiceRequestAction requestInfo={row.original} />;
     },
   },
 ];
