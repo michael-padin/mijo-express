@@ -16,11 +16,6 @@ export const login = async (credentials: loginProps) => {
   try {
     await connectToDB();
 
-    // await createReview(testDataReview);
-    // await Promise.all(serviceOfferTestData.map(async (item) => {
-    //   await createServiceOffer(item);
-    // }));
-
     const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
