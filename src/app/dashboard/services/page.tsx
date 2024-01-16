@@ -1,19 +1,22 @@
 import { authConfig } from "@/lib/auth.config";
-import { getServiceOfferByProvider } from "@/lib/data";
+import { getAllServiceOffers, getServiceOfferByProvider } from "@/lib/data";
 import { Briefcase } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { DataTable } from "./components/data-table";
+import { DataTable as AdminDataTable } from "./components/admin/data-table";
 import { Separator } from "@/components/ui/separator";
 import { serviceColumns } from "./components/service-columns";
-import { Button } from "@/components/ui/button";
+import { serviceColumns as adminServiceColumns } from "./components/admin/service-columns";
 import NewServiceForm from "./components/new-service-form";
 import { Card, CardHeader } from "@/components/ui/card";
 
 export default async function ServicesPage() {
   const session = await getServerSession(authConfig);
-  const services = JSON.parse(
+  const { role } = session?.user || {};
+  const servicesByProvider = JSON.parse(
     await getServiceOfferByProvider(session?.user._id || "")
   );
+  const allServices = JSON.parse(await getAllServiceOffers());
 
   return (
     <div>
@@ -36,7 +39,15 @@ export default async function ServicesPage() {
         <Separator className="my-6" />
         <Card>
           <CardHeader>
-            <DataTable columns={serviceColumns} data={services} />
+            {role === "service_provider" && (
+              <DataTable columns={serviceColumns} data={servicesByProvider} />
+            )}
+            {role === "admin" && (
+              <AdminDataTable
+                columns={adminServiceColumns}
+                data={allServices}
+              />
+            )}
           </CardHeader>
         </Card>
       </div>
