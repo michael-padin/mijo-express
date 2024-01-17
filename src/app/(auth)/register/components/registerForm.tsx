@@ -33,6 +33,9 @@ import { useRouter } from "next/navigation";
 import { MeInputAddress } from "@/components/me/me-input-address";
 import { Separator } from "@/components/ui/separator";
 import { RegisterData, RegisterSchema } from "../data/schema";
+import { MeMultiSeleect } from "@/components/me/me-multi-select";
+import { skills } from "../data/data";
+import { Textarea } from "@/components/ui/textarea";
 
 //THIS SHOULD BE FETCH FROM ADMIN
 
@@ -45,33 +48,6 @@ export async function getSkill() {
   }
 }
 
-export const skills = [
-  {
-    id: "recents",
-    label: "Recents",
-  },
-  {
-    id: "home",
-    label: "Home",
-  },
-  {
-    id: "applications",
-    label: "Applications",
-  },
-  {
-    id: "desktop",
-    label: "Desktop",
-  },
-  {
-    id: "downloads",
-    label: "Downloads",
-  },
-  {
-    id: "documents",
-    label: "Documents",
-  },
-] as const;
-
 const RegisterForm = () => {
   const router = useRouter();
   const form = useForm<RegisterData>({
@@ -83,6 +59,7 @@ const RegisterForm = () => {
       contact: "",
       role: "customer",
       password: "",
+      skills: [],
       confirmPassword: "",
     },
   });
@@ -181,7 +158,7 @@ const RegisterForm = () => {
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="customer">Customer</SelectItem>
-                    <SelectItem value="provider">Provider</SelectItem>
+                    <SelectItem value="service_provider">Provider</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -189,56 +166,40 @@ const RegisterForm = () => {
             )}
           />
 
-          {form.getValues("role") === "provider" && (
+          {form.getValues("role") === "service_provider" && (
             <>
               <Separator />
               <FormField
                 control={form.control}
                 name="skills"
-                render={() => (
+                render={({ field }) => (
                   <FormItem>
-                    <div className="mb-4">
-                      <FormLabel className="text-base">Skills</FormLabel>
-                      <FormDescription>
-                        Select the skills you that you have.
-                      </FormDescription>
-                    </div>
-                    {skills.map((item) => (
-                      <FormField
-                        key={item.id}
-                        control={form.control}
-                        name="skills"
-                        render={({ field }) => {
-                          return (
-                            <FormItem
-                              key={item.id}
-                              className="flex flex-row items-start space-x-3 space-y-0"
-                            >
-                              <FormControl>
-                                <Checkbox
-                                  checked={field.value?.includes(item.id)}
-                                  onCheckedChange={(checked) => {
-                                    return checked
-                                      ? field.onChange([
-                                          ...(field.value ?? []),
-                                          item.id,
-                                        ])
-                                      : field.onChange(
-                                          field.value?.filter(
-                                            (value) => value !== item.id
-                                          )
-                                        );
-                                  }}
-                                />
-                              </FormControl>
-                              <FormLabel className="text-sm font-normal">
-                                {item.label}
-                              </FormLabel>
-                            </FormItem>
-                          );
-                        }}
+                    <FormLabel className="text-base">Skills</FormLabel>
+                    <FormControl>
+                      <MeMultiSeleect
+                        options={skills}
+                        onChange={field.onChange}
                       />
-                    ))}
+                    </FormControl>
+                    <FormDescription>
+                      Select the skills you that you have.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base">Description</FormLabel>
+                    <FormControl>
+                      <Textarea {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      Write something about yourself.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

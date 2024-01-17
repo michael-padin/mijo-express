@@ -5,6 +5,7 @@ export const RegisterSchema = z
     fullName: z.string().min(3),
     email: z.string().email(),
     address: z.string().min(3),
+    description: z.string().min(1).optional(),
     contact: z.string().refine(
       (value) => {
         const contactNumberRegex = /^09\d{9}$/; // Pattern for a 10-digit number starting with '09'
@@ -14,12 +15,15 @@ export const RegisterSchema = z
         message: "Invalid contact number format",
       }
     ),
-    role: z.enum(["provider", "customer"]),
+    role: z.enum(["service_provider", "customer"]),
     skills: z
-      .array(z.string())
-      .refine((value) => value.some((item) => item), {
-        message: "You have to select at least one item.",
-      })
+      .array(
+        z.object({
+          label: z.string(),
+          value: z.string(),
+          category: z.string().optional(),
+        })
+      )
       .optional(),
     password: z.string().min(6),
     confirmPassword: z.string().min(6),

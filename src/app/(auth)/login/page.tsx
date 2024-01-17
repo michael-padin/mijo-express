@@ -33,7 +33,9 @@ export default function AuthenticationPage() {
           </div>
           <div className="relative z-20 flex items-center text-lg font-medium">
             <h1 className="text-2xl font-black">
-              <span className="text-primary">MiJo </span> Express
+              <Link href={"/"}>
+                <span className="text-primary">MiJo </span> Express
+              </Link>
             </h1>
           </div>
           {/* <div className="relative z-20 mt-auto">
