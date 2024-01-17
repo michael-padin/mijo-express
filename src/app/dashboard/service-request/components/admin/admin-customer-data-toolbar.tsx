@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { DataTableViewOptions } from "./data-table-view-options";
 import { Search } from "lucide-react";
+import { statuses } from "../../data";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -44,7 +45,7 @@ export function AdminCustomerDataTableToolbar<TData>({
           <DataTableFacetedFilter
             column={table.getColumn("status")}
             title="Status"
-            options={[]}
+            options={statuses}
           />
         )}
 

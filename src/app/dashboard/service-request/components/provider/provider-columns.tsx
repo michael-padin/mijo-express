@@ -45,7 +45,7 @@ export const providerColumns: ColumnDef<any>[] = [
   {
     accessorKey: "customerDescription",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="DESCRIPTION" />
+      <DataTableColumnHeader column={column} title="NOTES" />
     ),
     cell: ({ row }) => {
       const category = row.original.serviceOffer.serviceCategory as any;

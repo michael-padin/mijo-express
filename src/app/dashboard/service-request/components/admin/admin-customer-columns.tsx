@@ -109,6 +109,12 @@ export const admineServiceRequestColumns: ColumnDef<any>[] = [
             {status}
           </Badge>
         );
+      } else if (status === "rejected") {
+        return (
+          <Badge className="bg-red-100 text-red-800  hover:!bg-red-100">
+            {status}
+          </Badge>
+        );
       }
       return <Badge>{status}</Badge>;
     },
