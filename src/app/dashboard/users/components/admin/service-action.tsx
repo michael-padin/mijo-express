@@ -96,15 +96,14 @@ export const ServiceAction = ({ id, serviceInfo }: ServiceActionsProps) => {
   };
 
   const handleDelete = async () => {
-    const response = await fetch(
-      `/api/services/delete?serviceId=${serviceInfo._id}`,
-      {
-        method: "DELETE",
-      }
-    );
+    console.log(serviceInfo._id);
+
+    const response = await fetch(`/api/users?userId=${serviceInfo._id}`, {
+      method: "DELETE",
+    });
 
     if (response.status === 200) {
-      toast.success("Service deleted successfully");
+      toast.success("User deleted successfully");
       router.refresh();
     } else {
       toast.error("Something went wrong");
@@ -122,7 +121,7 @@ export const ServiceAction = ({ id, serviceInfo }: ServiceActionsProps) => {
             <Info className="mr-2 h-4 w-4" />
             Details
           </DropdownMenuItem> */}
-          <DialogTrigger asChild>
+          {/* <DialogTrigger asChild>
             <DropdownMenuItem>
               <Info className="mr-2 h-4 w-4" />
               Details
@@ -133,7 +132,7 @@ export const ServiceAction = ({ id, serviceInfo }: ServiceActionsProps) => {
               <Pen className="mr-2 h-4 w-4" />
               Edit
             </DropdownMenuItem>
-          </DialogTrigger>
+          </DialogTrigger> */}
           <DropdownMenuItem onClick={handleDelete} className="text-red-600">
             <Trash className="mr-2 h-4 w-4" />
             Delete

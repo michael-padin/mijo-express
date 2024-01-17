@@ -33,16 +33,12 @@ export function DataTableToolbar<TData>({
         <div className="relative">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search provider..."
+            placeholder="Search users..."
             value={
-              (table
-                .getColumn("serviceProviderName")
-                ?.getFilterValue() as string) ?? ""
+              (table.getColumn("fullName")?.getFilterValue() as string) ?? ""
             }
             onChange={(event) =>
-              table
-                .getColumn("serviceProviderName")
-                ?.setFilterValue(event.target.value)
+              table.getColumn("fullName")?.setFilterValue(event.target.value)
             }
             className=" w-[150px] bg-muted pl-8 lg:w-[250px]"
           />

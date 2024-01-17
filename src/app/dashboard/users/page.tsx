@@ -6,6 +6,9 @@ import { DataTable as AdminDataTable } from "./components/admin/data-table";
 import { Separator } from "@/components/ui/separator";
 import { serviceColumns as adminServiceColumns } from "./components/admin/user-columns";
 import { Card, CardHeader } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { Button, buttonVariants } from "@/components/ui/button";
+import Link from "next/link";
 
 export default async function UsersPage() {
   const session = await getServerSession(authConfig);
@@ -26,7 +29,13 @@ export default async function UsersPage() {
             </p>
           </div>
 
-          <div className="">{/* <NewServiceForm /> */}</div>
+          <div className=""></div>
+          <Link
+            href="/dashboard/users/create"
+            className={cn(buttonVariants({ variant: "default" }))}
+          >
+            Create User
+          </Link>
         </div>
         <Separator className="my-6" />
         <Card>

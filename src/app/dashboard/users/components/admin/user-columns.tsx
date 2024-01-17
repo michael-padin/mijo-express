@@ -77,23 +77,6 @@ export const serviceColumns: ColumnDef<any>[] = [
   },
   {
     enableSorting: false,
-    accessorKey: "customerName",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Customer" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <Link
-          href={`/dashboard/customer/customer-info/${row.original.customerId}`}
-          className="font-bold hover:underline"
-        >
-          {row.getValue("customerName")}
-        </Link>
-      );
-    },
-  },
-  {
-    enableSorting: false,
     accessorKey: "action",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="ACTION" />
