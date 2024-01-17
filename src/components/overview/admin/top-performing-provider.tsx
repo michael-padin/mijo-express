@@ -39,20 +39,21 @@ export function TopPerformingProvider() {
               <div className="flex items-center space-x-4">
                 <Avatar>
                   <AvatarImage src="/avatars/03.png" />
-                  <AvatarFallback>OM</AvatarFallback>
+                  <AvatarFallback>JD</AvatarFallback>
                 </Avatar>
                 <div>
                   <p className="text-sm font-medium leading-none">
-                    Olivia Martin
+                    Juan Dela Cruz
                   </p>
-                  <p className="text-sm text-muted-foreground">m@example.com</p>
+                  <p className="text-sm text-muted-foreground">
+                    juan@example.com
+                  </p>
                 </div>
               </div>
               <Link
-                href="/dashboard"
+                href="/dashboard/overview/provider-info/65a5aca7406e05d5770593f6"
                 className={cn(buttonVariants({ variant: "default" }))}
               >
-                {" "}
                 View info
               </Link>
             </div>

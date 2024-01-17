@@ -159,7 +159,7 @@ const ServiceProviderOverview = async () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {averageRating.thisMonth}
+                {averageRating.thisMonth.toFixed(1)}
               </div>
               <p className="text-xs text-muted-foreground">
                 {averageRating.lastMonth} from last month

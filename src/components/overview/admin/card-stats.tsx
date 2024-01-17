@@ -43,8 +43,8 @@ export default function TotalUsers() {
         <CardTitle className="text-base font-normal">Total Users</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">+2350</div>
-        <p className="text-xs text-muted-foreground">+180.1% from last month</p>
+        <div className="text-2xl font-bold">+5</div>
+        <p className="text-xs text-muted-foreground">0 last month</p>
         <div className="mt-4 h-[80px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data}>
