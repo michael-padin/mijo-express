@@ -44,9 +44,11 @@ interface CardContent {
 
 const testReviewAppData = Array.from({ length: 10 }, (_, i) => ({
   profileImg: `https://randomuser.me/api/portraits/women/${i + 1}.jpg`,
-  fullName: `User ${i + 1}`,
+  fullName: `Raphael ${i + 1}`,
   address: `Address ${i + 1}`,
-  description: `This is a description for User ${i + 1}.`,
+  description: `Very great app, helps you fnid great home service provider ${
+    i + 1
+  }.`,
   createdAt: new Date(),
 }));
 
