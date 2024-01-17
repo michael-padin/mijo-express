@@ -1,9 +1,4 @@
 "use client";
-import { Loader2Icon } from "lucide-react";
-
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-
 import Image from "next/image";
 import Link from "next/link";
 
@@ -11,19 +6,10 @@ import { MapPinned } from "lucide-react";
 import { Phone } from "lucide-react";
 import { MailOpen } from "lucide-react";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardDescription,
-  CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import App from "next/app";
 import Autoplay from "embla-carousel-autoplay";
 import AppReviewCard from "../components/landing/app-review-card";
 import {
