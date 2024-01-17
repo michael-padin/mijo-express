@@ -3,6 +3,7 @@ import { ScrollArea } from "@radix-ui/react-scroll-area";
 import Link from "next/link";
 import React from "react";
 import {
+  BadgeAlert,
   Briefcase,
   Calendar,
   Home,
@@ -54,6 +55,7 @@ const SidebarMenuItems: React.FC = () => {
         ...(role === "admin"
           ? [{ name: "Users", url: "users", icon: Users }]
           : []),
+        { name: "Reports", url: "reports", icon: BadgeAlert },
       ],
     },
     {
