@@ -1,5 +1,6 @@
 "use server";
 import {
+  Report,
   Review,
   ServiceCategory,
   ServiceOffer,
@@ -35,10 +36,21 @@ const getAllProviders = async () => {
   try {
     await connectToDB();
 
-    const providers = await User.find({ role: "service_provider" }).select(
-      "-password"
+    //query service_provider and return if has serviceOffer
+    const providers = await User.find({ role: "service_provider" });
+    const providerIds = providers.map((provider) => provider._id);
+
+    const services = await ServiceOffer.find({
+      serviceProviderId: { $in: providerIds },
+    });
+
+    const result = providers.filter((provider) =>
+      services.some(
+        (service) => service.serviceProviderId === provider._id.toString()
+      )
     );
-    return JSON.stringify(providers);
+
+    return JSON.stringify(result);
   } catch (error) {
     throw new Error("Failed to fetch providers");
   }
@@ -170,6 +182,18 @@ export const createServiceOffer = async (serviceOfferData: any) => {
     const serviceOffer = new ServiceOffer(serviceOfferData);
     const newServiceOffer = await serviceOffer.save();
     return newServiceOffer;
+  } catch (error) {
+    console.log(error);
+
+    throw error;
+  }
+};
+
+export const deleteUser = async (id: string) => {
+  try {
+    const response = await User.findOneAndDelete({ _id: id });
+
+    return response;
   } catch (error) {
     console.log(error);
 
@@ -332,6 +356,8 @@ const updateServiceRequest = async (payload: any) => {
     throw error;
   }
 };
+
+export const updateUserById = async (payload: any) => {};
 
 const getRevenuePerMonth = async (serviceProviderId: string) => {
   try {

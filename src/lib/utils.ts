@@ -84,7 +84,7 @@ export const formatCurrency = (
   currencyCode = "PHP",
   locale = "en-PH"
 ) =>
-  amount.toLocaleString(locale, {
+  amount?.toLocaleString(locale, {
     style: "currency",
     currency: currencyCode,
   });

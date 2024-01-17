@@ -38,7 +38,14 @@ const UserSchema = new mongoose.Schema({
       createdAt: { type: Date, default: Date.now },
     },
   ],
-  skills: [{ type: String }],
+  skills: [
+    {
+      label: { type: String },
+      value: { type: String },
+      category: { type: String },
+    },
+  ],
+  lowestPrice: { type: Number },
 });
 
 // ServiceCategories Collection: Represents different service categories offered in the app.
@@ -46,6 +53,22 @@ const ServiceCategorySchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true }, // Name of the service category
   description: String,
   slug: String,
+  // Add other relevant service category fields
+});
+
+// ServiceCategories Collection: Represents different service categories offered in the app.
+const ReportSchema = new mongoose.Schema({
+  userId: { type: String }, // Name of the service category
+  userName: String,
+  userEmail: String,
+  status: {
+    type: String,
+    enum: ["pending", "resolved"],
+    default: "pending",
+  },
+  title: String,
+  description: String,
+  createdAt: { type: Date, default: Date.now },
   // Add other relevant service category fields
 });
 
@@ -158,3 +181,5 @@ export const Review =
 export const ServiceRequest =
   mongoose.models?.ServiceRequest ||
   mongoose.model("ServiceRequest", ServiceRequestSchema);
+export const Report =
+  mongoose.models?.Report || mongoose.model("Report", ReportSchema);
