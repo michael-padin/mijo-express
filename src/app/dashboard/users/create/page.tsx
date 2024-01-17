@@ -1,7 +1,4 @@
-import Link from "next/link";
 import CreateUserForm from "../components/create/create-user";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { Card, CardHeader } from "@/components/ui/card";
 
 export default function CreateUserPage() {

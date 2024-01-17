@@ -1,13 +1,13 @@
 import { authConfig } from "@/lib/auth.config";
 import { getAllUsers } from "@/lib/data";
-import { Briefcase, Users } from "lucide-react";
+import { Users } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { DataTable as AdminDataTable } from "./components/admin/data-table";
 import { Separator } from "@/components/ui/separator";
 import { serviceColumns as adminServiceColumns } from "./components/admin/user-columns";
 import { Card, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 
 export default async function UsersPage() {

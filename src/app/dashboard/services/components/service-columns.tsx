@@ -1,13 +1,8 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "./data-table-column-header";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { format } from "date-fns";
-import { Button } from "@/components/ui/button";
-import { cn, formatCurrency } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { MeDatePickerWithRange } from "@/components/me/me-date-range-picker";
-import Link from "next/link";
 import { ServiceAction } from "./service-action";
 
 export const serviceColumns: ColumnDef<any>[] = [

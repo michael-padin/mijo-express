@@ -1,14 +1,10 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { format } from "date-fns/format";
-import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 
-import { cn } from "@/lib/utils";
 import {
   Form,
   FormControl,
@@ -19,30 +15,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+
 import { Button } from "@/components/ui/button";
 
-import { Calendar } from "@/components/ui/calendar";
 import { toast } from "@/components/ui/use-toast";
 import { MeInputAddress } from "@/components/me/me-input-address";
 import { Separator } from "@/components/ui/separator";
 import { useSession } from "next-auth/react";
-
-const languages = [
-  { label: "English", value: "en" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
-] as const;
 
 export const skills = [
   {
