@@ -9,27 +9,18 @@ export async function POST(req: Request) {
   try {
     await connectToDB();
     // Your registration logic here
-    const { email, password, fullName, address } = await req.json();
+    const data = await req.json();
 
-    const hashedPassword = await hash(password, 10);
+    const hashedPassword = await hash(data.password, 10);
 
     // Check if email already exists in the database
-    const emailExists = await checkEmailExists(email);
+    const emailExists = await checkEmailExists(data.email);
     if (emailExists) {
       return new Response("Error", {
         status: 400,
         statusText: "Email already exists",
       });
     }
-
-    // Your database logic here
-    // Example: Save user to the database
-    const user = {
-      email,
-      password: hashedPassword,
-      fullName,
-      address,
-    };
 
     // // map all providers to the database
     // const providers = await Promise.all(
@@ -44,7 +35,7 @@ export async function POST(req: Request) {
     //   })
     // );
 
-    const createdUser = await createUser(user);
+    const createdUser = await createUser({ ...data, password: hashedPassword });
 
     if (createdUser) {
       return new Response("Success", {

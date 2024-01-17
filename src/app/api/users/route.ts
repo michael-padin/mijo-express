@@ -1,24 +1,28 @@
-import { createServiceOffer } from "@/lib/data";
-import { connectToDB } from "@/lib/utils";
+import {
+  checkEmailExists,
+  createReview,
+  createServiceOffer,
+  createUser,
+  deleteUser,
+  updateServiceRequest,
+} from "@/lib/data";
+import { serviceOfferTestData, serviceProviderSample } from "@/lib/test-data";
 import { NextRequest } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function DELETE(req: NextRequest) {
   // You can continue to add more users with varied addresses, descriptions, and service categories.
 
   try {
-    await connectToDB();
-    const data = await req.json();
+    const id = req.nextUrl.searchParams.get("userId");
 
-    // update users data lowest price from  servicePrice data
-
-    if (!data.serviceProviderId) {
+    if (!id) {
       return new Response("Error", {
         status: 400,
         statusText: "Bad Request",
       });
     }
 
-    const response = await createServiceOffer(data);
+    const response = await deleteUser(id);
 
     if (!response) {
       return new Response("Error", {
