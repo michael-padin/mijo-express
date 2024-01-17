@@ -153,7 +153,7 @@ export default function ServiceRequestForm({
             name="customerDescription"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>NOTE</FormLabel>
                 <FormControl>
                   <Textarea placeholder="I want you to fix my ..." {...field} />
                 </FormControl>

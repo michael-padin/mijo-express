@@ -96,14 +96,18 @@ const ProviderCard = ({ providerInfo, reviews }: ProviderCardProps) => {
                   {address}
                 </time>
               </p>
-              <Link
-                className="inline-flex items-center gap-1 text-sm hover:underline"
-                href="#reviews"
-              >
-                <StarFilledIcon color="gold" />
-                <span className="font-semibold">{totalRatings.toFixed(1)}</span>
-                <span>{`(${reviews.length})`}</span>
-              </Link>
+              {reviews.length > 0 && (
+                <Link
+                  className="inline-flex items-center gap-1 text-sm hover:underline"
+                  href="#reviews"
+                >
+                  <StarFilledIcon color="gold" />
+                  <span className="font-semibold">
+                    {totalRatings.toFixed(1)}
+                  </span>
+                  <span>{`(${reviews.length})`}</span>
+                </Link>
+              )}
             </div>
           </div>
         </div>
