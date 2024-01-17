@@ -1,9 +1,8 @@
 import Navbar from "@/components/common/navbar";
 import Profile from "@/components/common/profile";
 import SidebarMenuItems from "@/components/common/sidebar-menu-items";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@radix-ui/react-dropdown-menu";
+import Link from "next/link";
 export default function RootLayout({
   children,
 }: {
@@ -17,7 +16,9 @@ export default function RootLayout({
         <div className="mx-4 flex items-center justify-between md:justify-center">
           <a href="#" className="flex h-20  items-center"></a>
           <h1 className="text-2xl font-black">
-            <span className="text-primary">MiJo </span> Express
+            <Link href={"/"}>
+              <span className="text-primary">MiJo </span> Express
+            </Link>
           </h1>
           {/* <X
 						onClick={closeSidebar}
