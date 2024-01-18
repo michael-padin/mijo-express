@@ -1,4 +1,5 @@
-import { checkEmailExists, createServiceOffer, createUser } from "@/lib/data";
+import { createUser } from "@/lib/actions/user";
+import { checkEmailExists, createServiceOffer } from "@/lib/data";
 import { serviceOfferTestData, serviceProviderSample } from "@/lib/test-data";
 import { connectToDB } from "@/lib/utils";
 import { hash } from "bcrypt";
