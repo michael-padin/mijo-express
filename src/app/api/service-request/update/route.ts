@@ -1,14 +1,5 @@
-import {
-  checkEmailExists,
-  createReview,
-  createServiceOffer,
-  createUser,
-  updateServiceRequest,
-} from "@/lib/data";
-import { serviceOfferTestData, serviceProviderSample } from "@/lib/test-data";
+import { updateServiceRequest } from "@/lib/data";
 import { connectToDB } from "@/lib/utils";
-import { hash } from "bcrypt";
-import { revalidatePath } from "next/cache";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
