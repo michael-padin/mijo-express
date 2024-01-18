@@ -1,7 +1,7 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { connectToDB } from "./utils";
-import { Report } from "./models";
+import { connectToDB } from "../utils";
+import { Report } from "../models";
 
 export const createReport = async (data: any) => {
   try {
