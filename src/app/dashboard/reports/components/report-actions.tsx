@@ -6,8 +6,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { Info, Loader2, Pen, Trash } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Loader2, Pen, Trash } from "lucide-react";
 import { toast } from "sonner";
 
 import {
@@ -34,12 +33,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { useSession } from "next-auth/react";
 
-import { ServiceActionsProps } from "./types";
 import { z } from "zod";
-import { slugify } from "@/lib/utils";
-import { deleteReport, updateReport } from "@/lib/actions";
+import { deleteReport, updateReport } from "@/lib/actions/report";
 import { useState } from "react";
 
 const FormSchema = z.object({

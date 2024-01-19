@@ -1,5 +1,4 @@
 import { authConfig } from "@/lib/auth.config";
-import { getAllUsers } from "@/lib/data";
 import { Users } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { DataTable as AdminDataTable } from "./components/admin/data-table";
@@ -9,6 +8,7 @@ import { Card, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import { getAllUsers } from "@/lib/actions/user";
 
 export default async function UsersPage() {
   const session = await getServerSession(authConfig);
