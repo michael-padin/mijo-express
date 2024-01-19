@@ -1,10 +1,8 @@
 import ProviderList from "@/components/overview/customer/provider-list";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { getAllProviders, getProvidersBySearch } from "@/lib/data";
+import { buttonVariants } from "@/components/ui/button";
+import { getProvidersBySearch } from "@/lib/actions/user";
 import { cn } from "@/lib/utils";
 import { Home } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 export default async function SearchPage({ searchParams }: any) {

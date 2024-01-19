@@ -1,7 +1,8 @@
 import { Separator } from "@/components/ui/separator";
-import { getAllProviders, getAllServiceCategories } from "@/lib/data";
+import { getAllServiceCategories } from "@/lib/data";
 import Categories from "./categories";
 import ProviderList from "./provider-list";
+import { getAllProviders } from "@/lib/actions/user";
 
 const CustomerOverview = async () => {
   const categories = JSON.parse(await getAllServiceCategories());
