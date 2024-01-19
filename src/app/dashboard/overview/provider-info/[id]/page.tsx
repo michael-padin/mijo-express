@@ -1,10 +1,6 @@
 import SubmitRequestForm from "../components/submit-request-form";
 import ServiceProviderInfo from "../components/service-provider-info";
-import {
-  getProviderInfo,
-  getReviewsByProvider,
-  getServiceOfferByProvider,
-} from "@/lib/data";
+import { getReviewsByProvider, getServiceOfferByProvider } from "@/lib/data";
 import {
   Card,
   CardContent,
@@ -14,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/lib/auth.config";
+import { getProviderInfo } from "@/lib/actions/user";
 
 export default async function ProviderInfoPage({
   params,

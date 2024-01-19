@@ -1,6 +1,6 @@
 import ProviderList from "@/components/overview/customer/provider-list";
 import { buttonVariants } from "@/components/ui/button";
-import { getProvidersByCategory } from "@/lib/data";
+import { getProvidersByCategory } from "@/lib/actions/user";
 import { cn, unslugAndCapitalize } from "@/lib/utils";
 import { Home } from "lucide-react";
 import Link from "next/link";
