@@ -1,12 +1,4 @@
-import {
-  checkEmailExists,
-  createReview,
-  createServiceOffer,
-  createUser,
-  deleteUser,
-  updateServiceRequest,
-} from "@/lib/data";
-import { serviceOfferTestData, serviceProviderSample } from "@/lib/test-data";
+import { deleteUser } from "@/lib/actions/user";
 import { NextRequest } from "next/server";
 
 export async function DELETE(req: NextRequest) {
