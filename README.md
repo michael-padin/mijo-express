@@ -1,5 +1,6 @@
-## School Project
+## School Project - MiJo Express
 
+The app’s objective is to provide reliable, efficient and on-demand services to our customers with easy access through our app, together with utmost convenience and satisfaction. Our mission is to connect customers with skilled and trusted service providers seamlessly, improving their quality of life and supporting local service businesses. We are committed to delivering a platform that offers a wide range of services and maintains a high standard of professionalism and customer care. 
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
